@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "DMSans";
+  src: url("/assets/fonts/DMSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans-Bold";
+  src: url("/assets/fonts/DMSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans-Medium";
+  src: url("/assets/fonts/DMSans-Medium.ttf") format("truetype");
+}
+
+@layer base {
+  :root {
+    --primary-color: #7b091c;
+    --secondary-color: #9c1c2a;
+    --main: #ffffff;
+    --text-main: #000000;
+  }
+
+  .theme-dark {
+    --primary-color: #7b091c;
+    --secondary-color: #9c1c2a;
+    --main: #121212;
+    --text-main: #ffffff;
+  }
+
+  .theme-blue {
+    --primary-color: #007bff;
+    --secondary-color: #61a4f6;
+    --main: #121212;
+    --text-main: #ffffff;
+  }
+}

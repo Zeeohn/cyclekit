@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "imageURL": "/assets/favicon.png",
+    "heading": "Heading 1",
+    "date": "Thu 15 July, 2023",
+    "preview": "Occaecat excepteur pariatur veniam qui non ullamco in irure irure reprehenderit consectetur magna."
+  },
+  {
+    "id": "2",
+    "imageURL": "/assets/images/image-1.png",
+    "heading": "Heading 2",
+    "date": "Mon 12 July, 2023",
+    "preview": "Sunt ex labore sit excepteur sunt magna laboris exercitation."
+  },
+  {
+    "id": "3",
+    "imageURL": "/assets/images/image-1.png",
+    "heading": "Heading 3",
+    "date": "Wed 5 July, 2023",
+    "preview": "Sint do eu reprehenderit nostrud eu officia."
+  },
+  {
+    "id": "4",
+    "imageURL": "/assets/images/image-1.png",
+    "heading": "Heading 4",
+    "date": "Fri 12 July, 2023",
+    "preview": "Incididunt sint laborum in enim mollit reprehenderit ipsum magna veniam amet deserunt dolore voluptate."
+  }
+]
