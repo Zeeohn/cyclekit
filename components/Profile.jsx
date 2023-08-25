@@ -1,9 +1,20 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from "react-native";
+import { SvgUri } from "react-native-svg"; // Import SvgUri from react-native-svg
 import * as ImagePicker from "expo-image-picker";
 
-const Profile = ({ username, profilePhoto, onUpdateProfile }) => {
-  const [selectedImage, setSelectedImage] = useState(profilePhoto);
+const DefaultProfilePhoto = () => (
+  <SvgUri
+    width="100"
+    height="100"
+    uri="https://example.com/default-profile-icon.svg" // Replace with your SVG icon URL
+  />
+);
+
+const Profile = ({ profileData, onUpdateProfile }) => {
+  const [editing, setEditing] = useState(false);
+  const [editedProfileData, setEditedProfileData] = useState(profileData);
+  const [selectedImage, setSelectedImage] = useState(profileData.profilePhoto);
 
   const handleImageUpload = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -18,21 +29,57 @@ const Profile = ({ username, profilePhoto, onUpdateProfile }) => {
     }
   };
 
+  const handleSave = () => {
+    onUpdateProfile(editedProfileData, selectedImage);
+    setEditing(false);
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleImageUpload}>
-        <Image
-          style={styles.profilePhoto}
-          source={{ uri: selectedImage }}
-        />
+        {selectedImage ? (
+          <Image style={styles.profilePhoto} source={{ uri: selectedImage }} />
+        ) : (
+          <DefaultProfilePhoto />
+        )}
       </TouchableOpacity>
-      <Text style={styles.username}>{username}</Text>
-      <TouchableOpacity
-        style={styles.editButton}
-        onPress={() => onUpdateProfile(username, selectedImage)}
-      >
-        <Text style={styles.editButtonText}>Edit Profile</Text>
-      </TouchableOpacity>
+      <View style={styles.detailsContainer}>
+        {editing ? (
+          <TextInput
+            style={styles.input}
+            value={editedProfileData.username}
+            onChangeText={(text) =>
+              setEditedProfileData({ ...editedProfileData, username: text })
+            }
+          />
+        ) : (
+          <Text style={styles.username}>{editedProfileData.username}</Text>
+        )}
+        {editing ? (
+          <TextInput
+            style={styles.input}
+            value={editedProfileData.bio}
+            onChangeText={(text) =>
+              setEditedProfileData({ ...editedProfileData, bio: text })
+            }
+            multiline
+          />
+        ) : (
+          <Text style={styles.bio}>{editedProfileData.bio}</Text>
+        )}
+        {editing ? (
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => setEditing(true)}
+          >
+            <Text style={styles.buttonText}>Edit Profile</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
@@ -47,10 +94,25 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
   },
+  detailsContainer: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  input: {
+    fontSize: 18,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    paddingVertical: 5,
+  },
   username: {
     fontSize: 20,
     fontWeight: "bold",
-    marginVertical: 10,
+    marginBottom: 10,
+  },
+  bio: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
   },
   editButton: {
     backgroundColor: "#3498db",
@@ -58,7 +120,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 8,
   },
-  editButtonText: {
+  saveButton: {
+    backgroundColor: "#27ae60",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  buttonText: {
     color: "white",
     fontWeight: "bold",
   },
