@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import "../global.css";
-import { useEffect } from "react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "../store/store";
+import { Text } from "react-native";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -34,8 +38,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
   // const colorScheme = useColorScheme();
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <Provider store={store}>
+      <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </PersistGate>
+    </Provider>
   );
 }

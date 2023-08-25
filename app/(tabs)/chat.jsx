@@ -1,9 +1,31 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, FlatList, Image } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  Image,
+} from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 /* import Message from "./../../components/Message";
  */
+
+const DATA_MESSAGES = [
+  {
+    text: "",
+    sender: "",
+    img: "",
+  },
+];
+
+export default function chat() {
+  const [messageInput, setMessageInput] = useState("");
+
+  const sendMessage = () => {};
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen
@@ -11,12 +33,14 @@ import { Ionicons } from "@expo/vector-icons";
           headerStyle: { backgroundColor: "#ffffff" },
           headerRight: () => (
             <View style={styles.headerIcon}>
-              <Ionicons name="ios-notifications-sharp" size={24} color="black" />
+              <Ionicons
+                name="ios-notifications-sharp"
+                size={24}
+                color="black"
+              />
             </View>
           ),
-          headerTitle: () => (
-            <Text style={styles.headerTitle}>Chat</Text>
-          ),
+          headerTitle: () => <Text style={styles.headerTitle}>Chat</Text>,
         }}
       />
       <View style={styles.chatContainer}>
@@ -42,7 +66,7 @@ import { Ionicons } from "@expo/vector-icons";
       </View>
     </SafeAreaView>
   );
-
+}
 
 const styles = StyleSheet.create({
   container: {
