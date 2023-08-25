@@ -1,7 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+} from "react-native";
 import { SvgUri } from "react-native-svg"; // Import SvgUri from react-native-svg
 import * as ImagePicker from "expo-image-picker";
+import { useThemeColor } from "../hooks/useThemeColor";
 
 const DefaultProfilePhoto = () => (
   <SvgUri
@@ -15,6 +23,25 @@ const Profile = ({ profileData, onUpdateProfile }) => {
   const [editing, setEditing] = useState(false);
   const [editedProfileData, setEditedProfileData] = useState(profileData);
   const [selectedImage, setSelectedImage] = useState(profileData.profilePhoto);
+  const { themeColor, setThemeColor } = useThemeColor();
+
+  const renderThemeColors = () => {
+    const colorsArr = ["#7b091c", "#0c61e2", "#ffcc00", "#f36a34"];
+
+    return colorsArr.map((color) => (
+      <TouchableOpacity
+        key={color}
+        className="colors h-7 w-7 rounded-full"
+        onPress={() => setThemeColor(color)}
+        style={{
+          marginBottom: Platform.OS == "android" ? 20 : 30,
+          backgroundColor: `${color}`,
+          border: "1px solid",
+          borderColor: themeColor === color ? "#000000" : "",
+        }}
+      ></TouchableOpacity>
+    ));
+  };
 
   const handleImageUpload = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -79,6 +106,9 @@ const Profile = ({ profileData, onUpdateProfile }) => {
             <Text style={styles.buttonText}>Edit Profile</Text>
           </TouchableOpacity>
         )}
+      </View>
+      <View style={{ display: "flex", marginTop: 10 }}>
+        {renderThemeColors()}
       </View>
     </View>
   );
