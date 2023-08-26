@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, SafeAreaView, StyleSheet } from "react-native";
-import Profile from "./../../components/Profile"; // Import the Profile component
+import Profile from "../../components/Profile"; // Import the Profile component
 
 export default function ProfileScreen() {
   const [profileData, setProfileData] = useState({
