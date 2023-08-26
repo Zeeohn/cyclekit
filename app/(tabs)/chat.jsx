@@ -7,47 +7,48 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Image,
+  KeyboardAvoidingView,
 } from "react-native";
-import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-/* import Message from "./../../components/Message";
- */
+import Message from "./../../components/Message"; // Make sure to import the correct path for your Message component.
 
 const DATA_MESSAGES = [
   {
-    text: "",
-    sender: "",
-    img: "",
+    text: "Hello!",
+    sender: "friend",
+    img: "image_url",
   },
+  // More chat data...
 ];
 
-export default function chat() {
+export default function Chat() {
   const [messageInput, setMessageInput] = useState("");
+  const [chatData, setChatData] = useState(DATA_MESSAGES);
 
-  const sendMessage = () => {};
+  const sendMessage = () => {
+    if (messageInput.trim() !== "") {
+      const newMessage = {
+        text: messageInput,
+        sender: "me",
+        img: "my_image_url",
+      };
+      setChatData([...chatData, newMessage]);
+      setMessageInput("");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: "#ffffff" },
-          headerRight: () => (
-            <View style={styles.headerIcon}>
-              <Ionicons
-                name="ios-notifications-sharp"
-                size={24}
-                color="black"
-              />
-            </View>
-          ),
-          headerTitle: () => <Text style={styles.headerTitle}>Chat</Text>,
-        }}
-      />
-      <View style={styles.chatContainer}>
+      <View style={styles.header}>
+        <Ionicons name="ios-notifications-sharp" size={24} color="black" />
+        <Text style={styles.headerTitle}>Chat</Text>
+        <View style={{ width: 24 }} />
+      </View>
+      <KeyboardAvoidingView style={styles.chatContainer} behavior="padding">
         <FlatList
-          data={DATA_MESSAGES[0].chats}
+          data={chatData}
           renderItem={({ item }) => (
-            <ChatMessage text={item.text} sender={item.sender} img={item.img} />
+            <Message text={item.text} sender={item.sender} img={item.img} />
           )}
           keyExtractor={(item, index) => String(index)}
           contentContainerStyle={styles.messageList}
@@ -63,77 +64,22 @@ export default function chat() {
             <Ionicons name="send" size={24} color="black" />
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  headerIcon: {
-    marginRight: 16,
-  },
-  headerTitle: {
-    fontWeight: "bold",
-    fontSize: 20,
-    textAlign: "center",
-  },
-  chatContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  messageList: {
-    flexGrow: 1,
-    paddingVertical: 10,
-  },
-  messageContainer: {
+  // ... Your existing styles
+  header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 10,
-    marginVertical: 4,
-  },
-  myMessage: {
-    justifyContent: "flex-end",
-  },
-  friendMessage: {
-    justifyContent: "flex-start",
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  messageText: {
-    backgroundColor: "#EAEAEA",
-    padding: 10,
-    borderRadius: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderTopWidth: 1,
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
     borderColor: "#d4d4d4",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    backgroundColor: "#ffffff",
   },
-  input: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    marginRight: 10,
-  },
-  sendButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#EAEAEA",
-  },
+  // ... Other styles
 });
