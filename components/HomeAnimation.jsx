@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
 const HomeAnimation = () => {
-  const radii = [120, 100];
+  const radii = [130, 110];
   const dotCount = 30;
 
   const renderDots = (dotColor, radius, xOffset = 0, yOffset = 0) => {
@@ -38,14 +38,17 @@ const HomeAnimation = () => {
         height={svgWidth}
         viewBox={`-10 -10 ${svgWidth} ${svgWidth}`}
       >
-        {renderDots("red", radii[0])}
-        {renderDots("blue", radii[1], radii[0] - radii[1], radii[0] - radii[1])}
+        {renderDots("blue", radii[0])}
+        {renderDots("red", radii[1], radii[0] - radii[1], radii[0] - radii[1])}
       </Svg>
       <View style={styles.centerContent}>
-        <Text className="font-boldFont text-lg">August 5</Text>
-        <Text className="font-normalFont text-xs">Period in 10 days</Text>
-        <TouchableOpacity className="bg-black mt-4 px-4 py-3 rounded-xl">
-          <Text className="font-normalFont text-xs text-white">Log it in</Text>
+        <Text className="font-boldFont text-base pb-2">August 5</Text>
+        <Text className="font-normalFont text-xs">Period in</Text>
+        <Text className="font-boldFont text-2xl">10 days</Text>
+        <TouchableOpacity className="bg-black mt-3 px-4 py-1 rounded-xl">
+          <Text className="font-normalFont text-xs text-white">
+            + Log it in
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -9,16 +9,6 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Image,
-} from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 /* import Message from "./../../components/Message";

@@ -64,7 +64,7 @@ const products = [
 
 export default function store() {
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: "#ffffff" },
@@ -75,8 +75,9 @@ export default function store() {
             </View>
           ),
           headerTitle: () => (
-            <Text className=" ml-20 font-boldFont text-xl">Store</Text>
+            <Text className="font-boldFont text-xl">Store</Text>
           ),
+          headerTitleAlign: "center",
         }}
       />
       <View>

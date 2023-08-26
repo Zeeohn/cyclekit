@@ -2,6 +2,7 @@ import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import React from "react";
 import { Stack, useRouter } from "expo-router";
 import RecentUpdates from "./../../components/RecentUpdates";
+import SearchBar from "./../../components/SearchBar";
 
 export default function updates() {
   const posts = [
@@ -85,10 +86,12 @@ export default function updates() {
     <SafeAreaView className="flex-1 bg-white">
       <Stack.Screen
         options={{
-          headerLeft: () => (
+          headerLeft: () => <SearchBar />,
+          headerStyle: { backgroundColor: "#ffffff" },
+          headerTitle: () => (
             <Text className="font-boldFont text-xl ml-4">Recent Updates</Text>
           ),
-          headerStyle: { backgroundColor: "#ffffff" },
+          headerTitleAlign: "center",
         }}
       />
       <ScrollView>
