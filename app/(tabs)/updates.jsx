@@ -1,8 +1,12 @@
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, SafeAreaView, Dimensions } from "react-native";
 import React from "react";
 import { Stack, useRouter } from "expo-router";
 import RecentUpdates from "./../../components/RecentUpdates";
 import SearchBar from "./../../components/SearchBar";
+
+let height = Dimensions.get("window").height;
+// let height = Dimensions.get("window").height;
+height = height - 120;
 
 export default function updates() {
   const posts = [
@@ -83,7 +87,7 @@ export default function updates() {
     },
   ];
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView>
       <Stack.Screen
         options={{
           headerLeft: () => <SearchBar />,
@@ -94,11 +98,13 @@ export default function updates() {
           headerTitleAlign: "center",
         }}
       />
-      <ScrollView>
-        {posts.map((post, index) => (
-          <RecentUpdates key={index} {...post} />
-        ))}
-      </ScrollView>
+      <View style={{ height: height }} className="mb-4 pt-4">
+        <ScrollView>
+          {posts.map((post, index) => (
+            <RecentUpdates key={index} {...post} />
+          ))}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

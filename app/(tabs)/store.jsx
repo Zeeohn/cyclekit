@@ -1,9 +1,10 @@
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, SafeAreaView, Dimensions } from "react-native";
 import React from "react";
 import { Stack, useRouter } from "expo-router";
 import { FontAwesome5 } from "@expo/vector-icons";
 import SearchBar from "./../../components/SearchBar";
 import Products from "./../../components/Products";
+import { useThemeColor } from "../../hooks/useThemeColor";
 
 const products = [
   {
@@ -62,7 +63,12 @@ const products = [
   },
 ];
 
+let height = Dimensions.get("window").height;
+// let height = Dimensions.get("window").height;
+height = height - 125;
+
 export default function store() {
+  const { themeColor, setThemeColor } = useThemeColor();
   return (
     <SafeAreaView>
       <Stack.Screen
@@ -71,7 +77,7 @@ export default function store() {
           headerLeft: () => <SearchBar />,
           headerRight: () => (
             <View className="mr-6">
-              <FontAwesome5 name="cart-plus" size={24} color="black" />
+              <FontAwesome5 name="cart-plus" size={24} color={themeColor} />
             </View>
           ),
           headerTitle: () => (
@@ -80,7 +86,7 @@ export default function store() {
           headerTitleAlign: "center",
         }}
       />
-      <View>
+      <View style={{ height: height }}>
         <Products products={products} />
       </View>
     </SafeAreaView>

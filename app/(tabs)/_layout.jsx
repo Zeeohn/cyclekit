@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Link, Tabs } from "expo-router";
 import React, { useRef } from "react";
 import { useThemeColor } from "../../hooks/useThemeColor";
-import Svg, { G, Path } from "react-native-svg";
+import Svg, { G, Path, ClipPath, Circle, Defs } from "react-native-svg";
 
 export default function TabLayout() {
   const navigation = useNavigation();
@@ -31,9 +31,21 @@ export default function TabLayout() {
     // let height = Dimensions.get("window").height;
     width = width - 80;
     // height = height - 80;
-    // console.log(height);
     return width / 5;
   };
+
+  let width = Dimensions.get("window").width;
+  // const tabBarHeight = 70;
+  // const middleIconSize = 56;
+  // const midRadius = 28;
+  // const midBoundary = 60;
+
+  // const linePath = [
+  //   "M0 0",
+  //   `H${width / 2 - midBoundary / 2}`,
+  //   `A 10 10 0 0 0 ${width / 2 + midBoundary / 2} 0`,
+  //   `H${width}`,
+  // ].join(",");
 
   return (
     <Tabs

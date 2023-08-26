@@ -2,6 +2,7 @@ import {
   Image,
   View,
   Text,
+  Dimensions,
   SafeAreaView,
   ScrollView,
   Pressable,
@@ -21,6 +22,11 @@ function LogoTitle() {
   );
 }
 
+let height = Dimensions.get("window").height;
+// let height = Dimensions.get("window").height;
+height = height - 120;
+// height = height - 80;
+
 export default function index() {
   const router = useRouter();
   return (
@@ -36,7 +42,7 @@ export default function index() {
           }}
         />
       </View>
-      <ScrollView className="bg-white">
+      <ScrollView className="bg-white" style={{ height: height }}>
         <View className="flex justify-center items-center">
           <Text className="font-boldFont text-2xl">Hello Marie,</Text>
           <HomeAnimation />

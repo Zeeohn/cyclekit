@@ -7,9 +7,12 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useThemeColor } from "../hooks/useThemeColor";
 
 const SearchBar = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
+
+  const { themeColor, setThemeColor } = useThemeColor();
 
   const handleIconClick = () => {
     setPopupVisible(true);
@@ -26,9 +29,12 @@ const SearchBar = () => {
 
   return (
     <View className="flex flex-row relative">
-      <View className="ml-3 border-2 border-black bg-black rounded-md">
-        <TouchableOpacity className="p-1" onPress={handleIconClick}>
-          <FontAwesome name="search" size={24} color="white" className="p-2" />
+      <View
+        className={`ml-3  rounded-md`}
+        style={{ backgroundColor: `${themeColor}` }}
+      >
+        <TouchableOpacity className="p-1.5" onPress={handleIconClick}>
+          <FontAwesome name="search" size={24} color="white" />
         </TouchableOpacity>
       </View>
 
