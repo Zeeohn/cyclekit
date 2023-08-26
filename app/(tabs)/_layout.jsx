@@ -39,17 +39,15 @@ export default function TabLayout() {
           {
             backgroundColor: "white",
             position: "absolute",
-            bottom: 20,
-            marginHorizontal: 10,
-            height: 60,
+            height: 70,
             borderRadius: 10,
             shadowColor: "#000",
-            shadowOpacity: 0.06,
+            shadowOpacity: 0.09,
             shadowOffset: {
               width: 10,
               height: 10,
             },
-            paddingHorizontal: 20,
+            paddingHorizontal: 30,
           },
         ],
       }}
@@ -60,7 +58,7 @@ export default function TabLayout() {
           title: "",
           href: { pathname: "/updates" },
           tabBarIcon: ({ focused }) => (
-            <View className="flex-col items-center mt-5 bg-transparent">
+            <View className="flex-col items-center mt-5">
               <Ionicons
                 name="newspaper"
                 size={26}
@@ -85,13 +83,13 @@ export default function TabLayout() {
           title: "",
           href: { pathname: "/store" },
           tabBarIcon: ({ focused }) => (
-            <View className="flex-col items-center mt-5 bg-transparent">
+            <View className="flex-col items-center mt-5">
               <FontAwesome5
                 name="store"
                 size={26}
                 color={focused ? "#7b091c" : "black"}
               />
-              <Text className="mt-1 text-xs font-normalFont">Store</Text>
+              <Text className="text-xs font-normalFont">Store</Text>
             </View>
           ),
         }}
@@ -110,14 +108,16 @@ export default function TabLayout() {
           title: "",
           href: "/",
           tabBarIcon: ({ focused }) => (
-            <TouchableOpacity onPress={navigateToHome}>
-              <View
-                className=" w-14 h-14 bg-[#7b091c] rounded-full justify-center items-center"
-                style={{ marginBottom: Platform.OS == "android" ? 50 : 30 }}
-              >
-                <FontAwesome5 name="home" size={30} color={"white"} />
-              </View>
-            </TouchableOpacity>
+            <View className="">
+              <TouchableOpacity onPress={navigateToHome}>
+                <View
+                  className=" w-14 h-14 bg-[#7b091c] rounded-full justify-center items-center"
+                  style={{ marginBottom: Platform.OS == "android" ? 50 : 30 }}
+                >
+                  <FontAwesome5 name="home" size={30} color={"white"} />
+                </View>
+              </TouchableOpacity>
+            </View>
           ),
         }}
       />
@@ -127,13 +127,13 @@ export default function TabLayout() {
           title: "",
           href: { pathname: "/chat" },
           tabBarIcon: ({ focused }) => (
-            <View className="flex-col items-center mt-5 bg-transparent">
+            <View className="flex-col items-center mt-4">
               <Ionicons
                 name="chatbubbles"
                 size={26}
                 color={focused ? "#7b091c" : "black"}
               />
-              <Text className="mt-1 text-xs font-normalFont">Chat</Text>
+              <Text className="text-xs font-normalFont">Chat</Text>
             </View>
           ),
         }}
@@ -152,13 +152,13 @@ export default function TabLayout() {
           title: "",
           href: { pathname: "/profile" },
           tabBarIcon: ({ focused }) => (
-            <View className="flex-col items-center mt-5 ">
+            <View className="flex-col items-center mt-5">
               <FontAwesome
                 name="user-circle"
                 size={26}
                 color={focused ? "#7b091c" : "black"}
               />
-              <Text className="mt-1 text-xs font-normalFont ">Account</Text>
+              <Text className="text-xs font-normalFont ">Account</Text>
             </View>
           ),
         }}
