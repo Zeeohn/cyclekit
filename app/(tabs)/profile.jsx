@@ -20,6 +20,11 @@ export default function ProfileScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
+       {/* Display the profile */}
+      <Profile
+          profileData={profileData}
+          onUpdateProfile={onUpdateProfile}
+        />
         {/* Navigation items */}
         <TouchableOpacity style={styles.navItem}>
           <Text>Profile</Text>
@@ -36,12 +41,7 @@ export default function ProfileScreen() {
         <TouchableOpacity style={styles.navItem} onPress={handleLogout}>
           <Text>Logout</Text>
         </TouchableOpacity>
-
-        {/* Display the profile */}
-        <Profile
-          profileData={profileData}
-          onUpdateProfile={onUpdateProfile}
-        />
+        
       </View>
     </SafeAreaView>
   );
