@@ -3,12 +3,21 @@ import React from "react";
 import { Stack, useRouter } from "expo-router";
 import RecentUpdates from "./../../components/RecentUpdates";
 import SearchBar from "./../../components/SearchBar";
+import { useThemeColor } from "./../../hooks/useThemeColor";
 
 let height = Dimensions.get("window").height;
 // let height = Dimensions.get("window").height;
 height = height - 120;
 
 export default function updates() {
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
+
   const posts = [
     {
       imageUrl: require("../../assets/images/image-1.png"),
@@ -91,14 +100,24 @@ export default function updates() {
       <Stack.Screen
         options={{
           headerLeft: () => <SearchBar />,
-          headerStyle: { backgroundColor: "#ffffff" },
+          headerStyle: { backgroundColor: colorScheme },
           headerTitle: () => (
-            <Text className="font-boldFont text-xl ml-4">Recent Updates</Text>
+            <Text
+              className="font-boldFont text-xl ml-4"
+              style={{
+                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+              }}
+            >
+              Recent Updates
+            </Text>
           ),
           headerTitleAlign: "center",
         }}
       />
-      <View style={{ height: height }} className="mb-4 pt-4">
+      <View
+        style={{ height: height, backgroundColor: colorScheme }}
+        className="mb-4 pt-4"
+      >
         <ScrollView>
           {posts.map((post, index) => (
             <RecentUpdates key={index} {...post} />

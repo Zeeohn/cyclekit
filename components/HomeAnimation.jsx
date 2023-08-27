@@ -1,8 +1,17 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Svg, { Circle } from "react-native-svg";
+import { useThemeColor } from "./../hooks/useThemeColor";
 
 const HomeAnimation = () => {
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
+
   const radii = [130, 110];
   const dotCount = 30;
 
@@ -38,15 +47,46 @@ const HomeAnimation = () => {
         height={svgWidth}
         viewBox={`-10 -10 ${svgWidth} ${svgWidth}`}
       >
-        {renderDots("blue", radii[0])}
+        {renderDots("#0c61e2", radii[0])}
         {renderDots("red", radii[1], radii[0] - radii[1], radii[0] - radii[1])}
       </Svg>
       <View style={styles.centerContent}>
-        <Text className="font-boldFont text-base pb-2">August 5</Text>
-        <Text className="font-normalFont text-xs">Period in</Text>
-        <Text className="font-boldFont text-2xl">10 days</Text>
-        <TouchableOpacity className="bg-black mt-3 px-4 py-1 rounded-xl">
-          <Text className="font-normalFont text-xs text-white">
+        <Text
+          className="font-boldFont text-base pb-2"
+          style={{
+            color: `${colorScheme === "#222222" ? "white" : "black"}`,
+          }}
+        >
+          August 5
+        </Text>
+        <Text
+          className="font-normalFont text-xs"
+          style={{
+            color: `${colorScheme === "#222222" ? "white" : "black"}`,
+          }}
+        >
+          Period in
+        </Text>
+        <Text
+          className="font-boldFont text-2xl"
+          style={{
+            color: `${colorScheme === "#222222" ? "white" : "black"}`,
+          }}
+        >
+          10 days
+        </Text>
+        <TouchableOpacity
+          className="bg-black mt-3 px-4 py-1 rounded-xl"
+          style={{
+            backgroundColor: `${colorScheme === "#222222" ? "white" : "black"}`,
+          }}
+        >
+          <Text
+            className="font-normalFont text-xs"
+            style={{
+              color: `${colorScheme === "#222222" ? "black" : "white"}`,
+            }}
+          >
             + Log it in
           </Text>
         </TouchableOpacity>

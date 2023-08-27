@@ -6,16 +6,18 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  Switch,
 } from "react-native";
 import { SvgUri } from "react-native-svg"; // Import SvgUri from react-native-svg
 import * as ImagePicker from "expo-image-picker";
 import { useThemeColor } from "../hooks/useThemeColor";
 
 const DefaultProfilePhoto = () => (
-  <SvgUri
-    width="100"
-    height="100"
-    uri="https://example.com/default-profile-icon.svg" // Replace with your SVG icon URL
+  <Image
+    className="w-24 h-24"
+    source={{
+      uri: "https://thehuboncanal.org/wp-content/uploads/2016/11/FEMALE-PERSON-PLACEHOLDER.jpg",
+    }}
   />
 );
 
@@ -23,20 +25,36 @@ const Profile = ({ profileData, onUpdateProfile }) => {
   const [editing, setEditing] = useState(false);
   const [editedProfileData, setEditedProfileData] = useState(profileData);
   const [selectedImage, setSelectedImage] = useState(profileData.profilePhoto);
-  const { themeColor, setThemeColor } = useThemeColor();
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
+
+  const schemes = ["#222222", "#f2f2f2"];
 
   const renderThemeColors = () => {
-    const colorsArr = ["#7b091c", "#0c61e2", "#ffcc00", "#f36a34"];
+    const colorsArr = [
+      "#7b091c",
+      "#0c61e2",
+      "#ffcc00",
+      "#f36a34",
+      "red",
+      "pink",
+      "green",
+    ];
 
     return colorsArr.map((color) => (
       <TouchableOpacity
-        key={color}
         className="colors h-7 w-7 rounded-full"
+        key={color}
         onPress={() => setThemeColor(color)}
         style={{
           marginBottom: Platform.OS == "android" ? 20 : 30,
           backgroundColor: `${color}`,
-          border: "1px solid",
+          border: "2px solid",
           borderColor: themeColor === color ? "#000000" : "",
         }}
       ></TouchableOpacity>
@@ -63,6 +81,14 @@ const Profile = ({ profileData, onUpdateProfile }) => {
 
   return (
     <View style={styles.container}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text>Light</Text>
+        <Switch
+          value={colorScheme === "#222222"} // Use the colorScheme value to set the initial state
+          onValueChange={toggleColorMode}
+        />
+        <Text>Dark</Text>
+      </View>
       <TouchableOpacity onPress={handleImageUpload}>
         {selectedImage ? (
           <Image style={styles.profilePhoto} source={{ uri: selectedImage }} />
@@ -107,7 +133,14 @@ const Profile = ({ profileData, onUpdateProfile }) => {
           </TouchableOpacity>
         )}
       </View>
-      <View style={{ display: "flex", marginTop: 10 }}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: 10,
+          marginTop: 10,
+        }}
+      >
         {renderThemeColors()}
       </View>
     </View>

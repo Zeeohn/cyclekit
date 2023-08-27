@@ -9,10 +9,20 @@ import {
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import Svg, { Path, Defs, Pattern, Rect } from "react-native-svg";
 import PatternedBorder from "./PatternedBorder";
+import { useThemeColor } from "./../hooks/useThemeColor";
 
 const ProductItem = ({ product }) => {
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
 
   const handleImageClick = () => {
     setModalVisible(true);
@@ -40,7 +50,7 @@ const ProductItem = ({ product }) => {
       }}
     >
       <View
-        className="border items-center justify-center border-[#bd6379] rounded-lg p-4"
+        className="border-4 items-center justify-center border-[#bd6379] rounded-lg p-4"
         style={{
           shadowColor: "#bd6379",
           shadowOffset: { width: 50, height: 50 },
@@ -74,7 +84,10 @@ const ProductItem = ({ product }) => {
             className="flex flex-col flex-1 items-center p-4"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
           >
-            <View className="flex flex-1 flex-col bg-white rounded-lg">
+            <View
+              className="flex flex-1 flex-col rounded-lg border-4"
+              style={{ borderColor: themeColor, backgroundColor: colorScheme }}
+            >
               <View className="items-end left-3 bottom-3 rounded-full p-1">
                 <AntDesign
                   name="close"
@@ -82,7 +95,7 @@ const ProductItem = ({ product }) => {
                   color="white"
                   onPress={closeModal}
                   style={{
-                    backgroundColor: "#7b091c",
+                    backgroundColor: themeColor,
                     borderRadius: 50,
                     padding: 4,
                   }}
@@ -95,17 +108,32 @@ const ProductItem = ({ product }) => {
                 />
               </View>
               <View className="p-5">
-                <Text className="font-boldFont text-lg">{product.name}</Text>
-                <Text className="font-boldFont text-xl text-[#7b091c]">
+                <Text
+                  className="font-boldFont text-lg"
+                  style={{
+                    color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                  }}
+                >
+                  {product.name}
+                </Text>
+                <Text className="font-boldFont text-xl text-[#bd6379]">
                   &#8358;{product.price}
                 </Text>
-                <Text className="font-normalFont text-xs text-justify pt-2">
+                <Text
+                  className="font-normalFont text-xs text-justify pt-2"
+                  style={{
+                    color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                  }}
+                >
                   {product.description}
                 </Text>
                 <View className="flex flex-row justify-between pt-8">
                   <TouchableOpacity
                     onPress={handleAddToCart}
                     className="bg-black px-3 py-2 rounded-md"
+                    style={{
+                      backgroundColor: themeColor,
+                    }}
                   >
                     <Text className="font-normalFont text-xs text-white">
                       Add to Cart
@@ -113,7 +141,7 @@ const ProductItem = ({ product }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={closeModal}
-                    className="bg-[#7b091c] px-3 py-2 rounded-md"
+                    className="bg-[#bd6379] px-3 py-2 rounded-md"
                   >
                     <Text className="font-normalFont text-xs text-white">
                       Cancel
@@ -130,14 +158,26 @@ const ProductItem = ({ product }) => {
   );
 };
 
+const DiamondPattern = () => (
+  <Defs>
+    <Pattern
+      id="diamond-pattern"
+      width="20"
+      height="20"
+      patternUnits="userSpaceOnUse"
+    >
+      <Path d="M10 0 L20 10 L10 20 L0 10 Z" fill="gray" />
+    </Pattern>
+  </Defs>
+);
+
 const Products = ({ products }) => {
   return (
-    <View
-      style={{
-        borderWidth: 10,
-        borderImage: `url(https://www.thespruce.com/thmb/c3znkzZgMeuvzBy4wH13jVllfUo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/plants-with-big-flowers-4138211-hero-b10becb169064cc4b3c7967adc1b22e1.jpg) 30 repeat`,
-      }}
-    >
+    <View style={{ flex: 1 }}>
+      <Svg width="100" height="100">
+        <DiamondPattern />
+        <Rect width="100%" height="100%" fill="url(#diamond-pattern)" />
+      </Svg>
       <FlatList
         data={products}
         renderItem={({ item }) => <ProductItem product={item} />}

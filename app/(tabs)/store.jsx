@@ -68,12 +68,19 @@ let height = Dimensions.get("window").height;
 height = height - 125;
 
 export default function store() {
-  const { themeColor, setThemeColor } = useThemeColor();
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
+
   return (
     <SafeAreaView>
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: "#ffffff" },
+          headerStyle: { backgroundColor: colorScheme },
           headerLeft: () => <SearchBar />,
           headerRight: () => (
             <View className="mr-6">
@@ -81,12 +88,19 @@ export default function store() {
             </View>
           ),
           headerTitle: () => (
-            <Text className="font-boldFont text-xl">Store</Text>
+            <Text
+              className="font-boldFont text-xl"
+              style={{
+                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+              }}
+            >
+              Store
+            </Text>
           ),
           headerTitleAlign: "center",
         }}
       />
-      <View style={{ height: height }}>
+      <View style={{ height: height, backgroundColor: colorScheme }}>
         <Products products={products} />
       </View>
     </SafeAreaView>

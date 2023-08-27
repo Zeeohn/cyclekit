@@ -78,7 +78,7 @@ const Message = (props) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboarVerticalOffset={100}
+      keyboardVerticalOffset={150}
       style={{ flex: 1 }}
     >
       <>

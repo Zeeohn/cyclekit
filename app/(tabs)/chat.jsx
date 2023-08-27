@@ -9,8 +9,11 @@ import {
   FlatList,
   KeyboardAvoidingView,
 } from "react-native";
+import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Message from "./../../components/Message"; // Make sure to import the correct path for your Message component.
+import { useThemeColor } from "./../../hooks/useThemeColor";
+import SearchBar from "./../../components/SearchBar";
 
 const DATA_MESSAGES = [
   {
@@ -24,6 +27,7 @@ const DATA_MESSAGES = [
 export default function Chat() {
   const [messageInput, setMessageInput] = useState("");
   const [chatData, setChatData] = useState(DATA_MESSAGES);
+  const { themeColor, setThemeColor } = useThemeColor();
 
   const sendMessage = () => {
     if (messageInput.trim() !== "") {
@@ -33,17 +37,31 @@ export default function Chat() {
         img: "my_image_url",
       };
       setChatData([...chatData, newMessage]);
-      setMessageInput("");
+      setMessageInput(messageInput);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Ionicons name="ios-notifications-sharp" size={24} color="black" />
-        <Text style={styles.headerTitle}>Chat</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      <Stack.Screen
+        options={{
+          headerStyle: { backgroundColor: "#ffffff" },
+          headerLeft: () => <SearchBar />,
+          headerRight: () => (
+            <View className="mr-6">
+              <Ionicons
+                name="ios-notifications-sharp"
+                size={26}
+                color={themeColor}
+              />
+            </View>
+          ),
+          headerTitle: () => (
+            <Text className="font-boldFont text-xl">Chat</Text>
+          ),
+          headerTitleAlign: "center",
+        }}
+      />
       <KeyboardAvoidingView style={styles.chatContainer} behavior="padding">
         <FlatList
           data={chatData}
@@ -53,17 +71,6 @@ export default function Chat() {
           keyExtractor={(item, index) => String(index)}
           contentContainerStyle={styles.messageList}
         />
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={messageInput}
-            onChangeText={setMessageInput}
-            placeholder="Type your message"
-            style={styles.input}
-          />
-          <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-            <Ionicons name="send" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

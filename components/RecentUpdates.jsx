@@ -29,7 +29,13 @@ const RecentUpdates = ({
   const [showAllComments, setShowAllComments] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const { themeColor, setThemeColor } = useThemeColor();
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
 
   const handleImageClick = () => {
     setModalVisible(true);
@@ -48,23 +54,34 @@ const RecentUpdates = ({
   };
 
   return (
-    <View className="flex-1 bg-white">
+    <View
+      className="flex-1"
+      style={{
+        backgroundColor: colorScheme,
+      }}
+    >
       <View
-        className="m-2 p-2 bg-white border-[#bd6379] border"
+        className="m-2 p-2 border-[#bd6379] border-4"
         style={{
           shadowColor: "#bd6379",
           shadowOffset: { width: 0, height: 12 },
-          shadowOpacity: 0.53,
-          shadowRadius: 14.0,
+          shadowOpacity: 0.73,
+          shadowRadius: 5,
           borderRadius: 15,
           elevation: 14,
+          backgroundColor: colorScheme,
         }}
       >
         <Image source={imageUrl} className="h-72 w-full rounded-lg" />
-        <Text className="mt-2 font-boldFont text-xl text-center text-[#7b091c]">
+        <Text className="mt-2 font-boldFont text-xl text-center text-[#bd6379]">
           {header}
         </Text>
-        <Text className="pt-4 font-mediumFont text-sm">
+        <Text
+          className="pt-4 font-mediumFont text-sm"
+          style={{
+            color: `${colorScheme === "#222222" ? "white" : "black"}`,
+          }}
+        >
           {showFullCaption ? caption : `${caption.slice(0, 70)}...`}
         </Text>
         {caption.length > 70 && (
@@ -90,10 +107,24 @@ const RecentUpdates = ({
                     className="h-6 w-6 rounded-full mr-2"
                   />
                   <View className="mt-1">
-                    <Text className="font-boldFont text-xs">
+                    <Text
+                      className="font-boldFont text-xs"
+                      style={{
+                        color: `${
+                          colorScheme === "#222222" ? "white" : "black"
+                        }`,
+                      }}
+                    >
                       {comment.userName}
                     </Text>
-                    <Text className="font-normalFont text-xs">
+                    <Text
+                      className="font-normalFont text-xs"
+                      style={{
+                        color: `${
+                          colorScheme === "#222222" ? "white" : "black"
+                        }`,
+                      }}
+                    >
                       {comment.text}
                     </Text>
                   </View>
@@ -109,10 +140,24 @@ const RecentUpdates = ({
                     className="h-6 w-6 rounded-full mr-2"
                   />
                   <View className="mt-1">
-                    <Text className="font-boldFont text-xs">
+                    <Text
+                      className="font-boldFont text-xs"
+                      style={{
+                        color: `${
+                          colorScheme === "#222222" ? "white" : "black"
+                        }`,
+                      }}
+                    >
                       {comment.userName}
                     </Text>
-                    <Text className="font-normalFont text-xs">
+                    <Text
+                      className="font-normalFont text-xs"
+                      style={{
+                        color: `${
+                          colorScheme === "#222222" ? "white" : "black"
+                        }`,
+                      }}
+                    >
                       {comment.text}
                     </Text>
                   </View>
@@ -135,9 +180,16 @@ const RecentUpdates = ({
           <Image source={userImageUrl} className="h-8 w-8 rounded-full mr-2" />
           <TextInput
             placeholder="Add a comment..."
+            placeholderTextColor={`${
+              colorScheme === "#222222" ? "white" : "black"
+            }`}
             value={commentInput}
             onChangeText={handleCommentInput}
             className="flex-grow border rounded-md py-1.5 px-4 font-normalFont text-xs"
+            style={{
+              borderColor: `${colorScheme === "#222222" ? "white" : "black"}`,
+              color: `${colorScheme === "#222222" ? "white" : "black"}`,
+            }}
           />
           <TouchableOpacity onPress={handleAddComment} className="ml-2 pr-2">
             <FontAwesome
@@ -148,7 +200,7 @@ const RecentUpdates = ({
             />
           </TouchableOpacity>
         </View>
-        <Text className="font-normalFont text-xs text-gray-400 pt-4 italic">
+        <Text className="font-normalFont text-xs text-gray-400 pt-4">
           {date}
         </Text>
 
@@ -159,7 +211,10 @@ const RecentUpdates = ({
           >
             <View
               className="flex flex-1 flex-col bg-white w-full border-8 "
-              style={{ borderColor: `${themeColor}` }}
+              style={{
+                borderColor: `${themeColor}`,
+                backgroundColor: colorScheme,
+              }}
             >
               <View className="items-end right-1 top-1">
                 <AntDesign
@@ -182,10 +237,20 @@ const RecentUpdates = ({
                   <Text className="font-boldFont text-2xl text-[#7b091c]">
                     Heading
                   </Text>
-                  <Text className="font-normalFont text-xs text-justify py-2">
+                  <Text
+                    className="font-normalFont text-xs text-justify py-2"
+                    style={{
+                      color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                    }}
+                  >
                     Wed, 24th July 2023
                   </Text>
-                  <Text className="font-mediumFont text-md">
+                  <Text
+                    className="font-mediumFont text-md"
+                    style={{
+                      color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                    }}
+                  >
                     sjkdbfadkjlbsbsjklddddddddddddsnkcbvaklsdbfajskdbabdshj
                     Aliquip ea irure qui id et commodo. Commodo nulla sit esse
                     anim quis est nulla Lorem tempor enim eu nulla amet nostrud.
