@@ -54,7 +54,7 @@ const HomeAnimation = () => {
         <Text
           className="font-boldFont text-base pb-2"
           style={{
-            color: `${colorScheme === "#222222" ? "white" : "black"}`,
+            color: `${colorScheme === "#121212" ? "white" : "black"}`,
           }}
         >
           August 5
@@ -62,7 +62,7 @@ const HomeAnimation = () => {
         <Text
           className="font-normalFont text-xs"
           style={{
-            color: `${colorScheme === "#222222" ? "white" : "black"}`,
+            color: `${colorScheme === "#121212" ? "white" : "black"}`,
           }}
         >
           Period in
@@ -70,7 +70,7 @@ const HomeAnimation = () => {
         <Text
           className="font-boldFont text-2xl"
           style={{
-            color: `${colorScheme === "#222222" ? "white" : "black"}`,
+            color: `${colorScheme === "#121212" ? "white" : "black"}`,
           }}
         >
           10 days
@@ -78,13 +78,13 @@ const HomeAnimation = () => {
         <TouchableOpacity
           className="bg-black mt-3 px-4 py-1 rounded-xl"
           style={{
-            backgroundColor: `${colorScheme === "#222222" ? "white" : "black"}`,
+            backgroundColor: `${colorScheme === "#121212" ? "white" : "black"}`,
           }}
         >
           <Text
             className="font-normalFont text-xs"
             style={{
-              color: `${colorScheme === "#222222" ? "black" : "white"}`,
+              color: `${colorScheme === "#121212" ? "black" : "white"}`,
             }}
           >
             + Log it in

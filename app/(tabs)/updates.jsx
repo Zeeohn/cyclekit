@@ -1,4 +1,12 @@
-import { View, Text, ScrollView, SafeAreaView, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import React from "react";
 import { Stack, useRouter } from "expo-router";
 import RecentUpdates from "./../../components/RecentUpdates";
@@ -7,7 +15,7 @@ import { useThemeColor } from "./../../hooks/useThemeColor";
 
 let height = Dimensions.get("window").height;
 // let height = Dimensions.get("window").height;
-height = height - 120;
+height = height - 125;
 
 export default function updates() {
   const {
@@ -97,33 +105,37 @@ export default function updates() {
   ];
   return (
     <SafeAreaView>
-      <Stack.Screen
-        options={{
-          headerLeft: () => <SearchBar />,
-          headerStyle: { backgroundColor: colorScheme },
-          headerTitle: () => (
-            <Text
-              className="font-boldFont text-xl ml-4"
-              style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
-              }}
-            >
-              Recent Updates
-            </Text>
-          ),
-          headerTitleAlign: "center",
-        }}
-      />
-      <View
-        style={{ height: height, backgroundColor: colorScheme }}
-        className="mb-4 pt-4"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView>
-          {posts.map((post, index) => (
-            <RecentUpdates key={index} {...post} />
-          ))}
-        </ScrollView>
-      </View>
+        <Stack.Screen
+          options={{
+            headerLeft: () => <SearchBar />,
+            headerStyle: { backgroundColor: colorScheme },
+            headerTitle: () => (
+              <Text
+                className="font-boldFont text-xl ml-4"
+                style={{
+                  color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                }}
+              >
+                Recent Updates
+              </Text>
+            ),
+            headerTitleAlign: "center",
+          }}
+        />
+        <View
+          style={{ height: height, backgroundColor: colorScheme }}
+          className="mb-4 pt-4 border-4 border-[#7b091c]"
+        >
+          <ScrollView>
+            {posts.map((post, index) => (
+              <RecentUpdates key={index} {...post} />
+            ))}
+          </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

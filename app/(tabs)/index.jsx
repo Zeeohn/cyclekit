@@ -65,7 +65,7 @@ export default function index() {
           <Text
             className="font-boldFont text-2xl"
             style={{
-              color: `${colorScheme === "#222222" ? "white" : "black"}`,
+              color: `${colorScheme === "#121212" ? "white" : "black"}`,
             }}
           >
             Hello Marie,
@@ -78,7 +78,7 @@ export default function index() {
             <Text
               className="font-normalFont text-xs"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               Ovulation
@@ -89,7 +89,7 @@ export default function index() {
             <Text
               className="font-normalFont text-xs"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               Period
@@ -101,7 +101,7 @@ export default function index() {
           <Text
             className="font-boldFont text-xl p-2"
             style={{
-              color: `${colorScheme === "#222222" ? "white" : "black"}`,
+              color: `${colorScheme === "#121212" ? "white" : "black"}`,
             }}
           >
             Subscription Plan
@@ -113,7 +113,7 @@ export default function index() {
             <Text
               className="font-mediumFont text-sm"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               Cycle Plan
@@ -121,7 +121,7 @@ export default function index() {
             <Text
               className="font-mediumFont text-sm"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               Available
@@ -129,7 +129,7 @@ export default function index() {
             <Text
               className="font-mediumFont text-base"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               5
@@ -140,7 +140,7 @@ export default function index() {
             <Text
               className="font-mediumFont text-sm"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               Total Cycle Pack
@@ -148,7 +148,7 @@ export default function index() {
             <Text
               className="font-mediumFont text-sm"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               Received
@@ -156,7 +156,7 @@ export default function index() {
             <Text
               className="font-mediumFont text-base"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               1

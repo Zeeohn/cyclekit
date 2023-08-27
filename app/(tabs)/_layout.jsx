@@ -14,11 +14,25 @@ import { useNavigation } from "@react-navigation/native";
 import { Link, Tabs } from "expo-router";
 import React, { useRef } from "react";
 import { useThemeColor } from "../../hooks/useThemeColor";
-import Svg, { G, Path, ClipPath, Circle, Defs } from "react-native-svg";
+import Svg, {
+  G,
+  Path,
+  ClipPath,
+  Circle,
+  Defs,
+  Mask,
+  Rect,
+} from "react-native-svg";
 
 export default function TabLayout() {
   const navigation = useNavigation();
-  const { themeColor, setThemeColor } = useThemeColor();
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
   // console.log({ themeColor });
   const navigateToHome = () => {
     navigation.navigate("index");
@@ -35,17 +49,6 @@ export default function TabLayout() {
   };
 
   let width = Dimensions.get("window").width;
-  // const tabBarHeight = 70;
-  // const middleIconSize = 56;
-  // const midRadius = 28;
-  // const midBoundary = 60;
-
-  // const linePath = [
-  //   "M0 0",
-  //   `H${width / 2 - midBoundary / 2}`,
-  //   `A 10 10 0 0 0 ${width / 2 + midBoundary / 2} 0`,
-  //   `H${width}`,
-  // ].join(",");
 
   return (
     <Tabs
@@ -140,7 +143,10 @@ export default function TabLayout() {
           title: "",
           href: "/",
           tabBarIcon: ({ focused }) => (
-            <TouchableOpacity onPress={navigateToHome}>
+            <TouchableOpacity
+              onPress={navigateToHome}
+              style={{ position: "relative" }}
+            >
               <View
                 className={`w-14 h-14 rounded-full justify-center items-center`}
                 style={{
@@ -161,6 +167,22 @@ export default function TabLayout() {
                   />
                 </Svg>
               </View>
+
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 42, // Adjust this value to position the semi-circle vertically
+                  left: -6,
+                  right: 0,
+                  width: 70,
+                  height: 40, // Adjust this value to control the size of the semi-circle
+                  backgroundColor: colorScheme,
+                  borderBottomLeftRadius: 50, // Half of the height to create a semi-circle
+                  borderBottomRightRadius: 50, // Half of the height to create a semi-circle
+                  zIndex: -2,
+                  overflow: "hidden",
+                }}
+              />
             </TouchableOpacity>
           ),
         }}

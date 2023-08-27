@@ -33,7 +33,7 @@ const Profile = ({ profileData, onUpdateProfile }) => {
     toggleColorMode,
   } = useThemeColor();
 
-  const schemes = ["#222222", "#f2f2f2"];
+  const schemes = ["#121212", "#f2f2f2"];
 
   const renderThemeColors = () => {
     const colorsArr = [
@@ -84,7 +84,7 @@ const Profile = ({ profileData, onUpdateProfile }) => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text>Light</Text>
         <Switch
-          value={colorScheme === "#222222"} // Use the colorScheme value to set the initial state
+          value={colorScheme === "#121212"} // Use the colorScheme value to set the initial state
           onValueChange={toggleColorMode}
         />
         <Text>Dark</Text>

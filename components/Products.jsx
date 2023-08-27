@@ -111,7 +111,7 @@ const ProductItem = ({ product }) => {
                 <Text
                   className="font-boldFont text-lg"
                   style={{
-                    color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                    color: `${colorScheme === "#121212" ? "white" : "black"}`,
                   }}
                 >
                   {product.name}
@@ -122,7 +122,7 @@ const ProductItem = ({ product }) => {
                 <Text
                   className="font-normalFont text-xs text-justify pt-2"
                   style={{
-                    color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                    color: `${colorScheme === "#121212" ? "white" : "black"}`,
                   }}
                 >
                   {product.description}
@@ -158,26 +158,9 @@ const ProductItem = ({ product }) => {
   );
 };
 
-const DiamondPattern = () => (
-  <Defs>
-    <Pattern
-      id="diamond-pattern"
-      width="20"
-      height="20"
-      patternUnits="userSpaceOnUse"
-    >
-      <Path d="M10 0 L20 10 L10 20 L0 10 Z" fill="gray" />
-    </Pattern>
-  </Defs>
-);
-
 const Products = ({ products }) => {
   return (
-    <View style={{ flex: 1 }}>
-      <Svg width="100" height="100">
-        <DiamondPattern />
-        <Rect width="100%" height="100%" fill="url(#diamond-pattern)" />
-      </Svg>
+    <View style={{ flex: 1 }} className="border-4 border-[#7b091c]">
       <FlatList
         data={products}
         renderItem={({ item }) => <ProductItem product={item} />}

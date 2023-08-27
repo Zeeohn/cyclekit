@@ -4,7 +4,7 @@ export const layoutSlice = createSlice({
   name: "layout",
   initialState: {
     themeColor: "#7b091c",
-    colorScheme: "#222222",
+    colorScheme: "#121212",
   },
   reducers: {
     handleThemeColor: (state, action) => {
@@ -15,7 +15,7 @@ export const layoutSlice = createSlice({
     },
     toggleColorScheme: (state) => {
       state.colorScheme =
-        state.colorScheme === "#f2f2f2" ? "#222222" : "#f2f2f2";
+        state.colorScheme === "#f2f2f2" ? "#121212" : "#f2f2f2";
     },
   },
 });

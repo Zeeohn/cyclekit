@@ -91,7 +91,7 @@ export default function store() {
             <Text
               className="font-boldFont text-xl"
               style={{
-                color: `${colorScheme === "#222222" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
               }}
             >
               Store
