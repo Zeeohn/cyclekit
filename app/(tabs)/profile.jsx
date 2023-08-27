@@ -1,8 +1,25 @@
 import React, { useState } from "react";
-import { View, SafeAreaView, StyleSheet, TouchableOpacity, Text } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import Profile from "../../components/Profile"; // Import the Profile component
+import { Stack } from "expo-router";
+import SearchBar from "./../../components/SearchBar";
+import { useThemeColor } from "./../../hooks/useThemeColor";
 
 export default function ProfileScreen() {
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
+
   const [profileData, setProfileData] = useState({
     username: "John Doe",
     bio: "Hello, I'm John Doe!",
@@ -19,12 +36,26 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerStyle: { backgroundColor: colorScheme },
+          headerLeft: () => <SearchBar />,
+          headerTitle: () => (
+            <Text
+              className="font-boldFont text-xl"
+              style={{
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
+              }}
+            >
+              Account
+            </Text>
+          ),
+          headerTitleAlign: "center",
+        }}
+      />
       <View style={styles.contentContainer}>
-       {/* Display the profile */}
-      <Profile
-          profileData={profileData}
-          onUpdateProfile={onUpdateProfile}
-        />
+        {/* Display the profile */}
+        <Profile profileData={profileData} onUpdateProfile={onUpdateProfile} />
         {/* Navigation items */}
         <TouchableOpacity style={styles.navItem}>
           <Text>Profile</Text>
@@ -41,7 +72,6 @@ export default function ProfileScreen() {
         <TouchableOpacity style={styles.navItem} onPress={handleLogout}>
           <Text>Logout</Text>
         </TouchableOpacity>
-        
       </View>
     </SafeAreaView>
   );

@@ -52,9 +52,8 @@ const Profile = ({ profileData, onUpdateProfile }) => {
         key={color}
         onPress={() => setThemeColor(color)}
         style={{
-          marginBottom: Platform.OS == "android" ? 20 : 30,
           backgroundColor: `${color}`,
-          border: "2px solid",
+          borderWidth: themeColor === color ? 3 : 0,
           borderColor: themeColor === color ? "#000000" : "",
         }}
       ></TouchableOpacity>
