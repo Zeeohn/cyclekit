@@ -160,7 +160,10 @@ const ProductItem = ({ product }) => {
 
 const Products = ({ products }) => {
   return (
-    <View style={{ flex: 1 }} className="border-4 border-[#7b091c]">
+    <View
+      style={{ flex: 1 }}
+      className="border-l-4 border-r-4 border-t-4 rounded-2xl border-[#7b091c]"
+    >
       <FlatList
         data={products}
         renderItem={({ item }) => <ProductItem product={item} />}

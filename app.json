@@ -5,10 +5,10 @@
     "version": "1.0.0",
     "scheme": "cyclekit",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/logo.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/logo-cyclekits.png",
+      "image": "./assets/images/logo.png",
       "backgroundColor": "#7b091c"
     },
     "assetBundlePatterns": ["**/*"],
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo-cyclekits.png",
+        "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.zeeohn.cyclekit"

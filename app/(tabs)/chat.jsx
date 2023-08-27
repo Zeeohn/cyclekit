@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   FlatList,
   KeyboardAvoidingView,
+  Dimensions,
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import Message from "./../../components/Message"; // Make sure to import the correct path for your Message component.
+import Message from "./../../components/Message";
 import { useThemeColor } from "./../../hooks/useThemeColor";
 import SearchBar from "./../../components/SearchBar";
 
@@ -27,14 +28,24 @@ const DATA_MESSAGES = [
 export default function Chat() {
   const [messageInput, setMessageInput] = useState("");
   const [chatData, setChatData] = useState(DATA_MESSAGES);
-  const { themeColor, setThemeColor } = useThemeColor();
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
+
+  let height = Dimensions.get("window").height;
+  // let height = Dimensions.get("window").height;
+  height = height - 125;
 
   const sendMessage = () => {
     if (messageInput.trim() !== "") {
       const newMessage = {
         text: messageInput,
-        sender: "me",
-        img: "my_image_url",
+        sender: "Me",
+        img: "",
       };
       setChatData([...chatData, newMessage]);
       setMessageInput(messageInput);
@@ -42,10 +53,10 @@ export default function Chat() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: "#ffffff" },
+          headerStyle: { backgroundColor: colorScheme },
           headerLeft: () => <SearchBar />,
           headerRight: () => (
             <View className="mr-6">
@@ -57,36 +68,43 @@ export default function Chat() {
             </View>
           ),
           headerTitle: () => (
-            <Text className="font-boldFont text-xl">Chat</Text>
+            <Text
+              className="font-boldFont text-xl"
+              style={{
+                color: `${colorScheme === "#121212" ? "white" : "black"}`,
+              }}
+            >
+              Chat
+            </Text>
           ),
           headerTitleAlign: "center",
         }}
       />
-      <KeyboardAvoidingView style={styles.chatContainer} behavior="padding">
+      <View style={{ height: height }}>
         <FlatList
           data={chatData}
           renderItem={({ item }) => (
             <Message text={item.text} sender={item.sender} img={item.img} />
           )}
           keyExtractor={(item, index) => String(index)}
-          contentContainerStyle={styles.messageList}
+          contentContainerStyle={{ backgroundColor: colorScheme }}
         />
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  // ... Your existing styles
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderColor: "#d4d4d4",
-    backgroundColor: "#ffffff",
-  },
-  // ... Other styles
-});
+// const styles = StyleSheet.create({
+//   // ... Your existing styles
+//   header: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     justifyContent: "space-between",
+//     paddingHorizontal: 12,
+//     paddingVertical: 8,
+//     borderBottomWidth: 1,
+//     borderColor: "#d4d4d4",
+//     backgroundColor: "#ffffff",
+//   },
+//   // ... Other styles
+// });

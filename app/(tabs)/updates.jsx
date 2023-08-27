@@ -104,7 +104,7 @@ export default function updates() {
     },
   ];
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: colorScheme }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
@@ -127,7 +127,7 @@ export default function updates() {
         />
         <View
           style={{ height: height, backgroundColor: colorScheme }}
-          className="mb-4 pt-4 border-4 border-[#7b091c]"
+          className="mb-4 pt-4 border-l-4 border-r-4 border-t-4 rounded-2xl border-[#7b091c]"
         >
           <ScrollView>
             {posts.map((post, index) => (

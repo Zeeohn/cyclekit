@@ -12,36 +12,58 @@ import {
 } from "react-native";
 const { width, height } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
+import { useThemeColor } from "./../hooks/useThemeColor";
 
 const DATA_MESSAGES = [
   {
     id: 0,
-    frnName: "Daniel Emmanuel",
+    frnName: "Cyclekits",
     chats: [
       {
         id: 1,
-        text: "Hi",
-        sender: "Daniel Emmanuel",
+        text: "Welcome to Cyclekits",
+        sender: "Cyclekits",
+        initials: "CL",
         img: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/09/09aa93bad4aef38579ab260817f2a51fa194637c.jpg",
       },
       {
         id: 2,
         text: "Hello",
         sender: "Me",
+        initials: "DE",
         img: "https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png",
       },
       {
         id: 3,
-        text: "To style the header in React Navigation use a header object inside the navigationOptions object",
-        sender: "Daniel Emmanuel",
+        text: "Commodo aliquip duis do nulla aliquip est qui elit. Dolore proident enim sit magna consequat cupidatat duis pariatur laborum eu cupidatat voluptate. Enim do in sunt aliqua consectetur velit dolore nostrud. Id voluptate minim reprehenderit sunt. Dolor mollit fugiat pariatur id. Consequat aliquip ullamco ex aute deserunt ut reprehenderit esse enim est pariatur. Amet veniam excepteur enim sunt non anim Lorem consectetur dolore culpa magna irure.",
+        sender: "Cyclekits",
+        initials: "CL",
         img: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/09/09aa93bad4aef38579ab260817f2a51fa194637c.jpg",
+      },
+      {
+        id: 4,
+        text: "Ullamco duis do sit enim nisi consequat cupidatat do enim mollit sunt. Cupidatat amet anim ea aliquip proident eiusmod enim consequat nulla ad. Proident nulla laborum in dolor ullamco. Laborum magna cupidatat exercitation consectetur occaecat cupidatat consectetur duis qui in. Dolore consectetur laboris quis irure proident enim tempor pariatur aliquip aliquip et aliquip mollit reprehenderit.",
+        sender: "Me",
+        initials: "DE",
+        img: "https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png",
       },
     ],
   },
 ];
 
 const Chats = ({ item }) => {
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
+
   var state = item.sender === "Me";
+  let height = Dimensions.get("window").height;
+  // let height = Dimensions.get("window").height;
+  height = height - 125;
   return (
     <View
       style={[
@@ -54,10 +76,20 @@ const Chats = ({ item }) => {
       ]}
     >
       <View style={state ? styles.pdlt10 : styles.pdrt10}>
-        <Image
-          style={{ width: 40, height: 40, borderRadius: 50 }}
-          source={{ uri: item.img }}
-        />
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 50,
+            backgroundColor: state ? themeColor : "#7b091c",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ color: "white" }} className="font-boldFont">
+            {item.initials}
+          </Text>
+        </View>
       </View>
       <View>
         <View
@@ -76,12 +108,11 @@ const Message = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={150}
-      style={{ flex: 1 }}
-    >
-      <>
+    <View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
         <FlatList
           data={DATA_MESSAGES[0].chats}
           renderItem={_renderMessages}
@@ -115,8 +146,8 @@ const Message = (props) => {
             </TouchableOpacity>
           </View>
         </View>
-      </>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 

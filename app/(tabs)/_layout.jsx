@@ -150,7 +150,7 @@ export default function TabLayout() {
               <View
                 className={`w-14 h-14 rounded-full justify-center items-center`}
                 style={{
-                  marginBottom: Platform.OS == "android" ? 50 : 30,
+                  marginBottom: Platform.OS == "android" ? 50 : 40,
                   backgroundColor: themeColor,
                 }}
               >

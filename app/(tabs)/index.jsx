@@ -17,7 +17,7 @@ function LogoTitle() {
     <View className="pt-10">
       <Image
         className="w-16 h-16"
-        source={require("../../assets/images/logo-cyclekits.png")}
+        source={require("../../assets/images/logo.png")}
       />
     </View>
   );
