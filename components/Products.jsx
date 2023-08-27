@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Svg, { Path, Defs, Pattern, Rect } from "react-native-svg";
-import PatternedBorder from "./PatternedBorder";
 import { useThemeColor } from "./../hooks/useThemeColor";
 
 const ProductItem = ({ product }) => {

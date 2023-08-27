@@ -13,12 +13,14 @@ import * as ImagePicker from "expo-image-picker";
 import { useThemeColor } from "../hooks/useThemeColor";
 
 const DefaultProfilePhoto = () => (
-  <Image
-    className="w-24 h-24"
-    source={{
-      uri: "https://thehuboncanal.org/wp-content/uploads/2016/11/FEMALE-PERSON-PLACEHOLDER.jpg",
-    }}
-  />
+  <View>
+    <Image
+      className="w-24 h-24 rounded-full"
+      source={{
+        uri: "https://thehuboncanal.org/wp-content/uploads/2016/11/FEMALE-PERSON-PLACEHOLDER.jpg",
+      }}
+    />
+  </View>
 );
 
 const Profile = ({ profileData, onUpdateProfile }) => {
@@ -54,7 +56,10 @@ const Profile = ({ profileData, onUpdateProfile }) => {
         style={{
           backgroundColor: `${color}`,
           borderWidth: themeColor === color ? 3 : 0,
-          borderColor: themeColor === color ? "#000000" : "",
+          borderColor:
+            themeColor === color && colorScheme === "#121212"
+              ? "#ffffff"
+              : "#000000",
         }}
       ></TouchableOpacity>
     ));
@@ -81,12 +86,20 @@ const Profile = ({ profileData, onUpdateProfile }) => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text>Light</Text>
+        <Text
+          style={{ color: `${colorScheme === "#121212" ? "white" : "black"}` }}
+        >
+          Light
+        </Text>
         <Switch
           value={colorScheme === "#121212"} // Use the colorScheme value to set the initial state
           onValueChange={toggleColorMode}
         />
-        <Text>Dark</Text>
+        <Text
+          style={{ color: `${colorScheme === "#121212" ? "white" : "black"}` }}
+        >
+          Dark
+        </Text>
       </View>
       <TouchableOpacity onPress={handleImageUpload}>
         {selectedImage ? (
@@ -105,7 +118,16 @@ const Profile = ({ profileData, onUpdateProfile }) => {
             }
           />
         ) : (
-          <Text style={styles.username}>{editedProfileData.username}</Text>
+          <Text
+            style={{
+              color: `${colorScheme === "#121212" ? "white" : "black"}`,
+              fontSize: 20,
+              fontWeight: "bold",
+              marginBottom: 10,
+            }}
+          >
+            {editedProfileData.username}
+          </Text>
         )}
         {editing ? (
           <TextInput
@@ -117,7 +139,16 @@ const Profile = ({ profileData, onUpdateProfile }) => {
             multiline
           />
         ) : (
-          <Text style={styles.bio}>{editedProfileData.bio}</Text>
+          <Text
+            style={{
+              color: `${colorScheme === "#121212" ? "white" : "black"}`,
+              fontSize: 16,
+              textAlign: "center",
+              marginBottom: 20,
+            }}
+          >
+            {editedProfileData.bio}
+          </Text>
         )}
         {editing ? (
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

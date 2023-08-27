@@ -5,11 +5,28 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
+  ScrollView,
 } from "react-native";
 import Profile from "../../components/Profile"; // Import the Profile component
 import { Stack } from "expo-router";
 import SearchBar from "./../../components/SearchBar";
 import { useThemeColor } from "./../../hooks/useThemeColor";
+
+const NavigationItem = ({ label, colorScheme, onPress }) => {
+  return (
+    <TouchableOpacity
+      style={[
+        styles.navigationItem,
+        { backgroundColor: colorScheme === "#121212" ? "black" : "white" },
+      ]}
+      onPress={onPress}
+    >
+      <Text style={{ color: colorScheme === "#121212" ? "white" : "black" }}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
 export default function ProfileScreen() {
   const {
@@ -35,7 +52,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: colorScheme },
@@ -53,26 +70,31 @@ export default function ProfileScreen() {
           headerTitleAlign: "center",
         }}
       />
-      <View style={styles.contentContainer}>
-        {/* Display the profile */}
-        <Profile profileData={profileData} onUpdateProfile={onUpdateProfile} />
-        {/* Navigation items */}
-        <TouchableOpacity style={styles.navItem}>
-          <Text>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Text>Settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Text>Transaction History</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Text>Change Password</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLogout}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView>
+        <View style={styles.content}>
+          <Profile
+            profileData={profileData}
+            onUpdateProfile={onUpdateProfile}
+          />
+
+          <NavigationItem label="Profile" colorScheme={colorScheme} />
+          <NavigationItem label="Settings" colorScheme={colorScheme} />
+          <NavigationItem
+            label="Transaction History"
+            colorScheme={colorScheme}
+          />
+          <NavigationItem
+            label="Change Password"
+            colorScheme={colorScheme}
+            onPress={handleLogout}
+          />
+          <NavigationItem
+            label="Logout"
+            colorScheme={colorScheme}
+            onPress={handleLogout}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -80,20 +102,26 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "",
   },
-  contentContainer: {
+  content: {
     flex: 1,
-    justifyContent: "flex-start", // Align items at the top
+    justifyContent: "flex-start",
     alignItems: "center",
     paddingVertical: 20,
   },
-  navItem: {
+  navigationItem: {
+    marginVertical: 3,
     paddingVertical: 15,
     paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
-    width: "100%",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#bd6379",
+    width: "90%",
     alignItems: "flex-start",
+    shadowColor: "#bd6379",
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.73,
+    shadowRadius: 5,
+    elevation: 10,
   },
 });
