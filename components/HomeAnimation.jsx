@@ -28,7 +28,7 @@ const HomeAnimation = () => {
           key={i}
           cx={x + radius + xOffset}
           cy={y + radius + yOffset}
-          r={3} // Adjust the radius of the dots as needed
+          r={5} // Adjust the radius of the dots as needed
           fill={dotColor}
         />
       );

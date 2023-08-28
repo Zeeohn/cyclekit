@@ -63,7 +63,7 @@ export default function Chat() {
               <Ionicons
                 name="ios-notifications-sharp"
                 size={26}
-                color={themeColor}
+                color="#7b091c"
               />
             </View>
           ),

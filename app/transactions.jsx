@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 
-const TransactionHistoryScreen = () => {
+export default function Transactions() {
   const transactions = [
-    { id: '1', date: '2023-08-01', subscription: 'Subscription 1' },
-    { id: '2', date: '2023-08-15', subscription: 'Subscription 2' },
+    { id: "1", date: "2023-08-01", subscription: "Subscription 1" },
+    { id: "2", date: "2023-08-15", subscription: "Subscription 2" },
     // Add more transactions here
   ];
 
@@ -25,7 +25,7 @@ const TransactionHistoryScreen = () => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -34,21 +34,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   transactionItem: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
   },
   date: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   subscription: {},
 });
-
-export default TransactionHistoryScreen;

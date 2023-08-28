@@ -6,8 +6,10 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  Dimensions,
 } from "react-native";
-import Profile from "../../components/Profile"; // Import the Profile component
+import { useNavigation } from "@react-navigation/native";
+import Profile from "../../components/Profile";
 import { Stack } from "expo-router";
 import SearchBar from "./../../components/SearchBar";
 import { useThemeColor } from "./../../hooks/useThemeColor";
@@ -28,7 +30,13 @@ const NavigationItem = ({ label, colorScheme, onPress }) => {
   );
 };
 
+let height = Dimensions.get("window").height;
+// let height = Dimensions.get("window").height;
+height = height - 180;
+
 export default function ProfileScreen() {
+  const navigation = useNavigation();
+
   const {
     themeColor,
     setThemeColor,
@@ -38,13 +46,29 @@ export default function ProfileScreen() {
   } = useThemeColor();
 
   const [profileData, setProfileData] = useState({
-    username: "John Doe",
-    bio: "Hello, I'm John Doe!",
+    username: "Marie Curie",
+    bio: "08143878904",
     profilePhoto: null,
   });
 
   const onUpdateProfile = (newProfileData, newProfilePhoto) => {
     setProfileData({ ...newProfileData, profilePhoto: newProfilePhoto });
+  };
+
+  const navigateToSettings = () => {
+    navigation.navigate("Settings");
+  };
+
+  const navigateToProfile = () => {
+    navigation.navigate("profileupdate");
+  };
+
+  const navigateToTransaction = () => {
+    navigation.navigate("transactions");
+  };
+
+  const navigateToPassword = () => {
+    navigation.navigate("password");
   };
 
   const handleLogout = () => {
@@ -70,23 +94,33 @@ export default function ProfileScreen() {
           headerTitleAlign: "center",
         }}
       />
-      <ScrollView>
+      <ScrollView style={{ height: height, marginBottom: 80 }}>
         <View style={styles.content}>
           <Profile
             profileData={profileData}
             onUpdateProfile={onUpdateProfile}
           />
 
-          <NavigationItem label="Profile" colorScheme={colorScheme} />
-          <NavigationItem label="Settings" colorScheme={colorScheme} />
+          <NavigationItem
+            label="Profile"
+            colorScheme={colorScheme}
+            onPress={navigateToProfile}
+          />
+          <NavigationItem
+            label="Settings"
+            colorScheme={colorScheme}
+            onPress={navigateToSettings}
+          />
           <NavigationItem
             label="Transaction History"
             colorScheme={colorScheme}
+            onPress={navigateToTransaction}
           />
           <NavigationItem
             label="Change Password"
             colorScheme={colorScheme}
             onPress={handleLogout}
+            onPress={navigateToPassword}
           />
           <NavigationItem
             label="Logout"

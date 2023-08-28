@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 
-const ProfileMenu = () => {
-  const [fullName, setFullName] = useState('John Doe');
-  const [dob, setDOB] = useState('1990-01-01');
-  const [state, setState] = useState('');
-  const [cityRegion, setCityRegion] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [firstDayLastPeriod, setFirstDayLastPeriod] = useState('');
-  const [lastDayLastPeriod, setLastDayLastPeriod] = useState('');
-  const [cycleLength, setCycleLength] = useState('');
+export default function ProfileMenu() {
+  const [fullName, setFullName] = useState("John Doe");
+  const [dob, setDOB] = useState("1990-01-01");
+  const [state, setState] = useState("");
+  const [cityRegion, setCityRegion] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [firstDayLastPeriod, setFirstDayLastPeriod] = useState("");
+  const [lastDayLastPeriod, setLastDayLastPeriod] = useState("");
+  const [cycleLength, setCycleLength] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleSave = () => {
@@ -76,13 +83,13 @@ const ProfileMenu = () => {
         <Button title="Save" onPress={() => {}} />
         <Text style={styles.subtitle}>Selected Items</Text>
         {selectedItems.map((item) => (
-            <Text>{item}</Text>
-         ))}
-         <Button title="Add Item" onPress={() => {}} />
+          <Text>{item}</Text>
+        ))}
+        <Button title="Add Item" onPress={() => {}} />
       </View>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -91,22 +98,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 20,
-    marginBottom:10,
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
   },
 });
-
-export default ProfileMenu;

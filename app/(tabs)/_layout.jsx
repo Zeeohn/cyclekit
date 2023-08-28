@@ -89,7 +89,7 @@ export default function TabLayout() {
               >
                 <Path
                   d="m3 0h10a3 3 0 0 1 3 3v14a3 3 0 0 1 -3 3h-10a3 3 0 0 1 -3-3v-14a3 3 0 0 1 3-3zm8 2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2zm-8 7a1 1 0 1 0 0 2h10a1 1 0 0 0 0-2zm0 3a1 1 0 0 0 0 2h10a1 1 0 0 0 0-2zm0 3a1 1 0 0 0 0 2h5a1 1 0 0 0 0-2zm8-10a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2zm-8-3a1 1 0 0 0 -1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0 -1-1z"
-                  fill={focused ? themeColor : "black"}
+                  fill={focused ? "#7b091c" : "#bd6379"}
                 />
               </Svg>
               <Text className="pt-1 text-xs font-normalFont">Updates</Text>
@@ -121,7 +121,7 @@ export default function TabLayout() {
               >
                 <Path
                   d="m21.9329 11.6907c-.1023-2.26802-.5111-5.25771-.8178-7.31957-.2044-1.3402-1.3289-2.37113-2.7599-2.37113h-12.67529c-1.43107 0-2.55549 1.03093-2.75993 2.37113-.30666 2.16495-.61332 5.05155-.81776 7.31957-.10222 2.165-.10222 5.1547-.10222 7.3196 0 1.4433 1.12442 2.5773 2.55549 2.6804 2.14662.2062 5.11099.3093 7.35981.3093 2.2489 0 5.2132-.2062 7.3598-.3093 1.4311-.1031 2.5555-1.2371 2.5555-2.6804.2045-2.1649.2045-5.1546.1023-7.3196zm-9.9154.1031c-2.65768 0-4.90651-2.16493-4.90651-4.94844 0-.41237.30666-.82474.81776-.82474s.81776.41237.81776.82474c0 1.85567 1.53329 3.29894 3.27099 3.29894 1.7378 0 3.2711-1.54636 3.2711-3.29894 0-.41237.3066-.82474.8177-.82474s.8178.30928.8178.82474c0 2.68041-2.2488 4.94844-4.9066 4.94844z"
-                  fill={focused ? themeColor : "black"}
+                  fill={focused ? "#7b091c" : "#bd6379"}
                 />
               </Svg>
               <Text className="pt-1 text-xs font-normalFont">Store</Text>
@@ -151,7 +151,7 @@ export default function TabLayout() {
                 className={`w-14 h-14 rounded-full justify-center items-center`}
                 style={{
                   marginBottom: Platform.OS == "android" ? 50 : 40,
-                  backgroundColor: themeColor,
+                  backgroundColor: `${focused ? "#7b091c" : "#bd6379"}`,
                 }}
               >
                 <Svg
@@ -204,27 +204,27 @@ export default function TabLayout() {
                 <G fill="#333">
                   <Path
                     d="m24 12.0417c0-3.33675-2.7049-6.0417-6.0417-6.0417h-5.9166c-3.33675 0-6.0417 2.70495-6.0417 6.0417 0 3.3367 2.70495 6.0416 6.0417 6.0416h1.1583v2.9167s10.8-1.4583 10.8-8.9583z"
-                    fill={focused ? themeColor : "black"}
+                    fill={focused ? "#7b091c" : "#bd6379"}
                   />
                   <Path
                     d="m18.5 28c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z"
-                    fill={focused ? themeColor : "black"}
+                    fill={focused ? "#7b091c" : "#bd6379"}
                   />
                   <Path
                     d="m14.5 34c-2.8369 0-8.5 1.4293-8.5 4.2667v3.7333h17v-3.7333c0-2.8374-5.6631-4.2667-8.5-4.2667z"
-                    fill={focused ? themeColor : "black"}
+                    fill={focused ? "#7b091c" : "#bd6379"}
                   />
                   <Path
                     d="m33.5 32c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"
-                    fill={focused ? themeColor : "black"}
+                    fill={focused ? "#7b091c" : "#bd6379"}
                   />
                   <Path
                     d="m33.5 34c-2.8369 0-8.5 1.4293-8.5 4.2667v3.7333h17v-3.7333c0-2.8374-5.6631-4.2667-8.5-4.2667z"
-                    fill={focused ? themeColor : "black"}
+                    fill={focused ? "#7b091c" : "#bd6379"}
                   />
                   <Path
                     d="m32.0417 7c-3.3368 0-6.0417 2.70495-6.0417 6.0417 0 7.5 9.6 8.9583 9.6 8.9583v-2.9167h.3583c3.3368 0 6.0417-2.7049 6.0417-6.0416 0-3.33675-2.7049-6.0417-6.0417-6.0417z"
-                    fill={focused ? themeColor : "black"}
+                    fill={focused ? "#7b091c" : "#bd6379"}
                   />
                 </G>
               </Svg>
@@ -258,7 +258,7 @@ export default function TabLayout() {
                 <Path d="m0 0h24v24h-24z" fill="none" />
                 <Path
                   d="m14.256 21.744-2.256 2.256-2.256-2.256c-4.434-1.024-7.744-5-7.744-9.744 0-5.52 4.48-10 10-10s10 4.48 10 10c0 4.744-3.31 8.72-7.744 9.744zm-8.233-6.328c1.468 2.19 3.672 3.584 6.137 3.584 2.464 0 4.669-1.393 6.136-3.584a8.968 8.968 0 0 0 -6.136-2.416 8.968 8.968 0 0 0 -6.137 2.416zm5.977-4.416a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
-                  fill={focused ? themeColor : "black"}
+                  fill={focused ? "#7b091c" : "#bd6379"}
                 />
               </Svg>
               <Text className="pt-1 text-xs font-normalFont ">Account</Text>

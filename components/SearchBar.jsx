@@ -31,7 +31,7 @@ const SearchBar = () => {
     <View className="flex flex-row relative">
       <View
         className={`ml-3  rounded-md`}
-        style={{ backgroundColor: `${themeColor}` }}
+        style={{ backgroundColor: "#7b091c" }}
       >
         <TouchableOpacity className="p-1.5" onPress={handleIconClick}>
           <FontAwesome name="search" size={24} color="white" />

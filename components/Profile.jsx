@@ -50,7 +50,7 @@ const Profile = ({ profileData, onUpdateProfile }) => {
 
     return colorsArr.map((color) => (
       <TouchableOpacity
-        className="colors h-7 w-7 rounded-full"
+        className="colors h-7 w-7 rounded-full mb-5 mt-4"
         key={color}
         onPress={() => setThemeColor(color)}
         style={{
@@ -85,22 +85,6 @@ const Profile = ({ profileData, onUpdateProfile }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text
-          style={{ color: `${colorScheme === "#121212" ? "white" : "black"}` }}
-        >
-          Light
-        </Text>
-        <Switch
-          value={colorScheme === "#121212"} // Use the colorScheme value to set the initial state
-          onValueChange={toggleColorMode}
-        />
-        <Text
-          style={{ color: `${colorScheme === "#121212" ? "white" : "black"}` }}
-        >
-          Dark
-        </Text>
-      </View>
       <TouchableOpacity onPress={handleImageUpload}>
         {selectedImage ? (
           <Image style={styles.profilePhoto} source={{ uri: selectedImage }} />
@@ -111,6 +95,7 @@ const Profile = ({ profileData, onUpdateProfile }) => {
       <View style={styles.detailsContainer}>
         {editing ? (
           <TextInput
+            className="font-normalFont text-xs"
             style={styles.input}
             value={editedProfileData.username}
             onChangeText={(text) =>
@@ -119,10 +104,9 @@ const Profile = ({ profileData, onUpdateProfile }) => {
           />
         ) : (
           <Text
+            className="font-boldFont text-xl"
             style={{
               color: `${colorScheme === "#121212" ? "white" : "black"}`,
-              fontSize: 20,
-              fontWeight: "bold",
               marginBottom: 10,
             }}
           >
@@ -131,6 +115,7 @@ const Profile = ({ profileData, onUpdateProfile }) => {
         )}
         {editing ? (
           <TextInput
+            className="font-normalFont text-xs"
             style={styles.input}
             value={editedProfileData.bio}
             onChangeText={(text) =>
@@ -163,16 +148,6 @@ const Profile = ({ profileData, onUpdateProfile }) => {
           </TouchableOpacity>
         )}
       </View>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 10,
-          marginTop: 10,
-        }}
-      >
-        {renderThemeColors()}
-      </View>
     </View>
   );
 };
@@ -180,7 +155,7 @@ const Profile = ({ profileData, onUpdateProfile }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 5,
   },
   profilePhoto: {
     width: 150,
@@ -192,18 +167,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    fontSize: 18,
     marginBottom: 10,
     borderBottomWidth: 1,
-    paddingVertical: 5,
+    paddingTop: 1,
   },
   username: {
     fontSize: 20,
-    fontWeight: "bold",
     marginBottom: 10,
   },
   bio: {
-    fontSize: 16,
     textAlign: "center",
     marginBottom: 20,
   },
