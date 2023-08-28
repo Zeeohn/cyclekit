@@ -7,10 +7,33 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import Profile from "../../components/Profile"; // Import the Profile component
+import "react-native-gesture-handler";
+import Profile from "../../components/Profile";
+import ProfileMenu from "../../components/Profiletab";
+import SettingsScreen from "../../components/SettingsMenu";
+import TransactionHistoryScreen from "../../components/TransactionsHistory";
+import ChangePasswordScreen from "../../components/Changepass";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 import { Stack } from "expo-router";
 import SearchBar from "./../../components/SearchBar";
 import { useThemeColor } from "./../../hooks/useThemeColor";
+
+const AccountAppStack = createNativeStackNavigator();
+
+function MyStack() {
+  return (
+    <AccountAppStack.Navigator>
+      <AccountAppStack.Screen name="Profiletab" component={ProfileMenu} />
+      <AccountAppStack.Screen name="SettingsMenu" component={SettingsScreen} />
+      <AccountAppStack.Screen
+        name="TransactionsHistory"
+        component={TransactionHistoryScreen}
+      />
+      <AccountAppStack.Screen name="ChangePass" component={ChangePasswordScreen} />
+    </AccountAppStack.Navigator>
+  );
+}
 
 const NavigationItem = ({ label, colorScheme, onPress }) => {
   return (
@@ -29,6 +52,7 @@ const NavigationItem = ({ label, colorScheme, onPress }) => {
 };
 
 export default function ProfileScreen() {
+  const navigation = useNavigation(); // Initialize navigation
   const {
     themeColor,
     setThemeColor,
@@ -77,16 +101,18 @@ export default function ProfileScreen() {
             onUpdateProfile={onUpdateProfile}
           />
 
-          <NavigationItem label="Profile" colorScheme={colorScheme} />
-          <NavigationItem label="Settings" colorScheme={colorScheme} />
+          <NavigationItem label="Profile" onPress={() => navigation.navigate("Profiletab")} // Navigate to ProfileMenu
+           colorScheme={colorScheme} />
+          <NavigationItem label="Settings"  onPress={() => navigation.navigate("SettingsMenu")} // Navigate to SettingsScreen
+          colorScheme={colorScheme} />
           <NavigationItem
-            label="Transaction History"
+            label="Transaction History" onPress={() => navigation.navigate("TransactionsHistory")} // Navigate to TransactionHistoryScreen
             colorScheme={colorScheme}
           />
           <NavigationItem
-            label="Change Password"
+            label="Change Password" onPress={() => navigation.navigate("ChangePass")} // Navigate to ChangePasswordScreen
             colorScheme={colorScheme}
-            onPress={handleLogout}
+           
           />
           <NavigationItem
             label="Logout"
@@ -107,7 +133,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingVertical: 20,
+    paddingVertical: 0,
   },
   navigationItem: {
     marginVertical: 3,

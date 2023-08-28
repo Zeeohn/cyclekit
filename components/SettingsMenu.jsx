@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { View, SafeAreaView, StyleSheet, TouchableOpacity, Text, ScrollView } from "react-native";
 import Profile from "./Profile"; // Import the Profile component
+import { useThemeColor } from "../hooks/useThemeColor";
 
-export default function ProfileScreen() {
+export default function SettingsScreen() {
   const [profileData, setProfileData] = useState({
     username: "John Doe",
     bio: "Hello, I'm John Doe!",
     profilePhoto: null,
   });
-
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
   const onUpdateProfile = (newProfileData, newProfilePhoto) => {
     setProfileData({ ...newProfileData, profilePhoto: newProfilePhoto });
   };
@@ -19,7 +26,7 @@ export default function ProfileScreen() {
 
   return (
     <ScrollView>
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme }}>
       <View style={styles.contentContainer}>
       <Profile
           profileData={profileData}
