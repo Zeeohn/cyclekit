@@ -23,7 +23,10 @@ const NavigationItem = ({ label, colorScheme, onPress }) => {
       ]}
       onPress={onPress}
     >
-      <Text style={{ color: colorScheme === "#121212" ? "white" : "black" }}>
+      <Text
+        className="font-mediumFont text-sm"
+        style={{ color: colorScheme === "#121212" ? "white" : "black" }}
+      >
         {label}
       </Text>
     </TouchableOpacity>
@@ -119,7 +122,6 @@ export default function ProfileScreen() {
           <NavigationItem
             label="Change Password"
             colorScheme={colorScheme}
-            onPress={handleLogout}
             onPress={navigateToPassword}
           />
           <NavigationItem

@@ -67,7 +67,7 @@ const ProductItem = ({ product }) => {
           <Text className="font-mediumFont text-sm">{product.name}</Text>
           <View className="mt-2">
             <TouchableOpacity
-              className="bg-black px-2 py-2 rounded-lg mb-2"
+              className="bg-[#7b091c] px-2 py-2 rounded-lg mb-2"
               onPress={handleAddToCart}
             >
               <Text className="font-normalFont text-[12px] text-white">

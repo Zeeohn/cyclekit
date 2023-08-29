@@ -81,6 +81,8 @@ const Chats = ({ item }) => {
             width: 40,
             height: 40,
             borderRadius: 50,
+            borderColor: themeColor === "#f2f2f2" ? "black" : "white",
+            borderWidth: 2,
             backgroundColor: state ? themeColor : "#7b091c",
             justifyContent: "center",
             alignItems: "center",
@@ -95,7 +97,7 @@ const Chats = ({ item }) => {
         <View
           style={[messages.Chat, state ? messages.myChat : messages.frnChat]}
         >
-          <Text style={{ lineHeight: 25 }}>{item.text}</Text>
+          <Text style={{ lineHeight: 25, color: "black" }}>{item.text}</Text>
         </View>
       </View>
     </View>
@@ -109,44 +111,42 @@ const Message = (props) => {
 
   return (
     <View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
+      <FlatList
+        data={DATA_MESSAGES[0].chats}
+        renderItem={_renderMessages}
+        keyExtractor={(item, index) => String(index)}
+        stickyHeaderIndices={[0]}
+        contentContainerStyle={{
+          flexGrow: 1,
+          backgroundColor: "#D3D3D388",
+        }}
+      />
+      <View
+        style={{
+          width: width,
+          backgroundColor: "#FFF",
+          borderTopColor: "#d4d4d4",
+          borderTopWidth: 1,
+          paddingTop: 15,
+          paddingBottom: 5,
+        }}
       >
-        <FlatList
-          data={DATA_MESSAGES[0].chats}
-          renderItem={_renderMessages}
-          keyExtractor={(item, index) => String(index)}
-          stickyHeaderIndices={[0]}
-          contentContainerStyle={{ flexGrow: 1, backgroundColor: "#D3D3D388" }}
-        />
         <View
-          style={{
-            width: width,
-            backgroundColor: "#FFF",
-            borderTopColor: "#d4d4d4",
-            borderTopWidth: 1,
-            paddingTop: 15,
-            paddingBottom: 5,
-          }}
+          style={[styles.frow, styles.jspaceBw, styles.pdrt10, styles.pdlt10]}
         >
-          <View
-            style={[styles.frow, styles.jspaceBw, styles.pdrt10, styles.pdlt10]}
-          >
-            <TextInput
-              multiline={true}
-              placeholder="type your message"
-              style={{
-                height: 45,
-                width: width / 1.3,
-              }}
-            />
-            <TouchableOpacity>
-              <FontAwesome name="send" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+          <TextInput
+            multiline={true}
+            placeholder="type your message"
+            style={{
+              height: 45,
+              width: width / 1.3,
+            }}
+          />
+          <TouchableOpacity>
+            <FontAwesome name="send" size={24} color="black" />
+          </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 };
@@ -154,11 +154,11 @@ const Message = (props) => {
 const messages = StyleSheet.create({
   Chat: { maxWidth: width / 2, padding: 10 },
   myChat: {
-    backgroundColor: "#aaeedd",
+    backgroundColor: "#f4f4f4",
     borderRadius: 14,
   },
   frnChat: {
-    backgroundColor: "#aaeeaa",
+    backgroundColor: "#e5e5e5",
     borderRadius: 14,
   },
 });

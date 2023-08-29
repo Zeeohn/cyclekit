@@ -200,7 +200,7 @@ const RecentUpdates = ({
               <FontAwesome
                 name="send"
                 size={24}
-                color={themeColor}
+                color={"#7b091c"}
                 className="h-6 w-6"
               />
             </TouchableOpacity>

@@ -15,6 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Message from "./../../components/Message";
 import { useThemeColor } from "./../../hooks/useThemeColor";
 import SearchBar from "./../../components/SearchBar";
+import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const DATA_MESSAGES = [
   {
@@ -36,6 +38,8 @@ export default function Chat() {
     toggleColorMode,
   } = useThemeColor();
 
+  const navigation = useNavigation();
+
   let height = Dimensions.get("window").height;
   // let height = Dimensions.get("window").height;
   height = height - 125;
@@ -52,19 +56,36 @@ export default function Chat() {
     }
   };
 
+  const navigateToNotification = () => {
+    navigation.navigate("notifications");
+  };
+
+  const notifications = "2";
+
   return (
-    <SafeAreaView>
+    <KeyboardAwareScrollView>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: colorScheme },
           headerLeft: () => <SearchBar />,
           headerRight: () => (
-            <View className="mr-6">
-              <Ionicons
-                name="ios-notifications-sharp"
-                size={26}
-                color="#7b091c"
-              />
+            <View className="right-4">
+              <TouchableOpacity onPress={navigateToNotification}>
+                <View className="relative">
+                  <Ionicons
+                    name="ios-notifications-sharp"
+                    size={26}
+                    color="#7b091c"
+                  />
+                  {notifications > 0 && (
+                    <View className="absolute top-0 left-3 rounded-full h-5 w-5 items-center justify-center bg-red-900 border-2 border-white">
+                      <Text className="font-normalFont text-white text-xs -mt-0.5 ">
+                        {notifications}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              </TouchableOpacity>
             </View>
           ),
           headerTitle: () => (
@@ -87,10 +108,10 @@ export default function Chat() {
             <Message text={item.text} sender={item.sender} img={item.img} />
           )}
           keyExtractor={(item, index) => String(index)}
-          contentContainerStyle={{ backgroundColor: colorScheme }}
+          contentContainerStyle={{ backgroundColor: themeColor }}
         />
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 }
 

@@ -11,11 +11,12 @@ import {
 import { SvgUri } from "react-native-svg"; // Import SvgUri from react-native-svg
 import * as ImagePicker from "expo-image-picker";
 import { useThemeColor } from "../hooks/useThemeColor";
+import { Ionicons } from "@expo/vector-icons";
 
 const DefaultProfilePhoto = () => (
   <View>
     <Image
-      className="w-24 h-24 rounded-full"
+      className="w-48 h-48 rounded-full"
       source={{
         uri: "https://thehuboncanal.org/wp-content/uploads/2016/11/FEMALE-PERSON-PLACEHOLDER.jpg",
       }}
@@ -35,36 +36,6 @@ const Profile = ({ profileData, onUpdateProfile }) => {
     toggleColorMode,
   } = useThemeColor();
 
-  const schemes = ["#121212", "#f2f2f2"];
-
-  const renderThemeColors = () => {
-    const colorsArr = [
-      "#7b091c",
-      "#0c61e2",
-      "#ffcc00",
-      "#f36a34",
-      "red",
-      "pink",
-      "green",
-    ];
-
-    return colorsArr.map((color) => (
-      <TouchableOpacity
-        className="colors h-7 w-7 rounded-full mb-5 mt-4"
-        key={color}
-        onPress={() => setThemeColor(color)}
-        style={{
-          backgroundColor: `${color}`,
-          borderWidth: themeColor === color ? 3 : 0,
-          borderColor:
-            themeColor === color && colorScheme === "#121212"
-              ? "#ffffff"
-              : "#000000",
-        }}
-      ></TouchableOpacity>
-    ));
-  };
-
   const handleImageUpload = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -73,8 +44,8 @@ const Profile = ({ profileData, onUpdateProfile }) => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setSelectedImage(result.uri);
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
     }
   };
 
@@ -87,66 +58,49 @@ const Profile = ({ profileData, onUpdateProfile }) => {
     <View style={styles.container}>
       <TouchableOpacity onPress={handleImageUpload}>
         {selectedImage ? (
-          <Image style={styles.profilePhoto} source={{ uri: selectedImage }} />
+          <View>
+            <Image
+              style={styles.profilePhoto}
+              source={{ uri: selectedImage }}
+            />
+            <TouchableOpacity
+              style={styles.editIconContainer}
+              onPress={handleImageUpload}
+            >
+              <Ionicons name="ios-pencil" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
         ) : (
-          <DefaultProfilePhoto />
+          <View>
+            <DefaultProfilePhoto />
+            <TouchableOpacity
+              style={styles.editIconContainer}
+              onPress={handleImageUpload}
+            >
+              <Ionicons name="ios-pencil" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
         )}
       </TouchableOpacity>
       <View style={styles.detailsContainer}>
-        {editing ? (
-          <TextInput
-            className="font-normalFont text-xs"
-            style={styles.input}
-            value={editedProfileData.username}
-            onChangeText={(text) =>
-              setEditedProfileData({ ...editedProfileData, username: text })
-            }
-          />
-        ) : (
-          <Text
-            className="font-boldFont text-xl"
-            style={{
-              color: `${colorScheme === "#121212" ? "white" : "black"}`,
-              marginBottom: 10,
-            }}
-          >
-            {editedProfileData.username}
-          </Text>
-        )}
-        {editing ? (
-          <TextInput
-            className="font-normalFont text-xs"
-            style={styles.input}
-            value={editedProfileData.bio}
-            onChangeText={(text) =>
-              setEditedProfileData({ ...editedProfileData, bio: text })
-            }
-            multiline
-          />
-        ) : (
-          <Text
-            style={{
-              color: `${colorScheme === "#121212" ? "white" : "black"}`,
-              fontSize: 16,
-              textAlign: "center",
-              marginBottom: 20,
-            }}
-          >
-            {editedProfileData.bio}
-          </Text>
-        )}
-        {editing ? (
-          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={() => setEditing(true)}
-          >
-            <Text style={styles.buttonText}>Edit Profile</Text>
-          </TouchableOpacity>
-        )}
+        <Text
+          className="font-boldFont text-xl"
+          style={{
+            color: `${colorScheme === "#121212" ? "white" : "black"}`,
+            marginBottom: 10,
+          }}
+        >
+          {editedProfileData.username}
+        </Text>
+        <Text
+          className="font-boldFont text-xl"
+          style={{
+            color: `${colorScheme === "#121212" ? "white" : "black"}`,
+            marginBottom: 20,
+          }}
+        >
+          {editedProfileData.bio}
+        </Text>
       </View>
     </View>
   );
@@ -156,6 +110,14 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     marginTop: 5,
+  },
+  editIconContainer: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    padding: 4,
+    borderRadius: 12,
   },
   profilePhoto: {
     width: 150,

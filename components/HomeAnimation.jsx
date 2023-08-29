@@ -1,7 +1,8 @@
-import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, Modal } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { useThemeColor } from "./../hooks/useThemeColor";
+import { Calendar } from "react-native-calendars";
 
 const HomeAnimation = () => {
   const {
@@ -11,6 +12,23 @@ const HomeAnimation = () => {
     setColorScheme,
     toggleColorMode,
   } = useThemeColor();
+
+  const [selectedDates, setSelectedDates] = useState({});
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const handleDateSelect = (day) => {
+    const selectedDate = day.dateString;
+    if (selectedDates[selectedDate]) {
+      const updatedDates = { ...selectedDates };
+      delete updatedDates[selectedDate];
+      setSelectedDates(updatedDates);
+    } else {
+      setSelectedDates({
+        ...selectedDates,
+        [selectedDate]: { selected: true },
+      });
+    }
+  };
 
   const radii = [130, 110];
   const dotCount = 30;
@@ -76,6 +94,7 @@ const HomeAnimation = () => {
           10 days
         </Text>
         <TouchableOpacity
+          onPress={() => setShowCalendar(true)}
           className="bg-black mt-3 px-4 py-1 rounded-xl"
           style={{
             backgroundColor: `${colorScheme === "#121212" ? "white" : "black"}`,
@@ -90,6 +109,26 @@ const HomeAnimation = () => {
             + Log it in
           </Text>
         </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          visible={showCalendar}
+          onRequestClose={() => setShowCalendar(false)}
+        >
+          <View style={styles.modalContainer}>
+            <Calendar
+              style={styles.calendar}
+              markedDates={selectedDates}
+              onDayPress={handleDateSelect}
+            />
+          </View>
+        </Modal>
+        {/* {Object.keys(selectedDates).length > 0 && (
+          <Calendar
+            style={{ marginTop: 10 }}
+            markedDates={selectedDates}
+            onDayPress={handleDateSelect}
+          />
+        )} */}
       </View>
     </View>
   );
