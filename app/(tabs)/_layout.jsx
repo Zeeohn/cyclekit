@@ -8,9 +8,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Keyboard,
 } from "react-native";
 import "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
+import { useLayoutEffect, useState } from "react";
+import { useNavigation, NavigationContainer } from "@react-navigation/native";
 import { Link, Tabs } from "expo-router";
 import React, { useRef } from "react";
 import { useThemeColor } from "../../hooks/useThemeColor";
@@ -25,6 +27,7 @@ import Svg, {
 } from "react-native-svg";
 
 export default function TabLayout() {
+  const [keyboardStatus, setKeyboardStatus] = useState(false);
   const navigation = useNavigation();
   const {
     themeColor,
@@ -33,7 +36,7 @@ export default function TabLayout() {
     setColorScheme,
     toggleColorMode,
   } = useThemeColor();
-  // console.log({ themeColor });
+
   const navigateToHome = () => {
     navigation.navigate("index");
   };
@@ -50,6 +53,28 @@ export default function TabLayout() {
 
   let width = Dimensions.get("window").width;
 
+  useLayoutEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardStatus(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardStatus(false);
+      }
+    );
+
+    // Clean up the listeners when the component unmounts
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <Tabs
       initialRouteName="index"
@@ -57,18 +82,23 @@ export default function TabLayout() {
         headerShown: true,
         tabBarShowLabel: true,
         tabBarHideOnKeyboard: true,
+        keyboardHidesTabBar: true,
         tabBarStyle: [
           {
             backgroundColor: "white",
             position: "absolute",
-            height: 70,
+            height: 60,
+            bottom: 20,
+            marginHorizontal: 10,
+            borderRadius: 10,
             shadowColor: "#000",
-            shadowOpacity: 0.09,
+            shadowOpacity: 0.85,
             shadowOffset: {
-              width: 10,
-              height: 10,
+              width: 15,
+              height: 15,
             },
             paddingHorizontal: 30,
+            display: keyboardStatus ? "none" : "flex",
           },
         ],
       }}
@@ -175,7 +205,7 @@ export default function TabLayout() {
                   left: -6,
                   right: 0,
                   width: 70,
-                  height: 40, // Adjust this value to control the size of the semi-circle
+                  height: 35, // Adjust this value to control the size of the semi-circle
                   backgroundColor: colorScheme,
                   borderBottomLeftRadius: 50, // Half of the height to create a semi-circle
                   borderBottomRightRadius: 50, // Half of the height to create a semi-circle

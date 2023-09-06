@@ -11,6 +11,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import Svg, { Path, Defs, Pattern, Rect } from "react-native-svg";
 import { useThemeColor } from "./../hooks/useThemeColor";
+import SearchBar from "./SearchBar";
 
 const ProductItem = ({ product }) => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -39,41 +40,36 @@ const ProductItem = ({ product }) => {
     // <View className="flex flex-1">
     // <View className="mb-4 w-2/4 shadow-md shadow-[#862d2d] border-0 drop-shadow-2xl rounded-md">
     // <View className="m-2 border-2 border-[#bd6379] rounded-lg items-center justify-center h-full max-w-[240px] p-2 shadow-lg shadow-[2px 2px 2px 4px #bd6379]">
-    <View
-      className="flex-1 m-2"
-      style={{
-        shadowColor: "#bd6379",
-        shadowOffset: { width: 100, height: 150 },
-        shadowOpacity: 1,
-        shadowRadius: 20,
-      }}
-    >
+    <View className="flex-1 m-1">
       <View
-        className="border-4 items-center justify-center border-[#bd6379] rounded-lg p-4"
         style={{
           shadowColor: "#bd6379",
-          shadowOffset: { width: 50, height: 50 },
-          shadowOpacity: 1,
-          shadowRadius: 4,
-          elevation: 5,
-          backgroundColor: "white",
+          shadowOpacity: 0.9,
+          shadowRadius: 3,
+          elevation: 1,
+          borderRadius: 10,
+          padding: 5,
         }}
       >
-        <TouchableOpacity onPress={handleImageClick}>
-          <Image source={{ uri: product.imageUrl }} className="w-32 h-32" />
-        </TouchableOpacity>
-        <View className="justify-center items-center mt-2">
-          <Text className="font-boldFont text-lg">&#8358;{product.price}</Text>
-          <Text className="font-mediumFont text-sm">{product.name}</Text>
-          <View className="mt-2">
-            <TouchableOpacity
-              className="bg-[#7b091c] px-2 py-2 rounded-lg mb-2"
-              onPress={handleAddToCart}
-            >
-              <Text className="font-normalFont text-[12px] text-white">
-                Add to Cart
-              </Text>
-            </TouchableOpacity>
+        <View className="border-2 items-center justify-center border-[#bd6379] rounded-lg p-4 bg-white">
+          <TouchableOpacity onPress={handleImageClick}>
+            <Image source={{ uri: product.imageUrl }} className="w-32 h-32" />
+          </TouchableOpacity>
+          <View className="justify-center items-center mt-2">
+            <Text className="font-boldFont text-lg">
+              &#8358;{product.price}
+            </Text>
+            <Text className="font-mediumFont text-sm">{product.name}</Text>
+            <View className="mt-2">
+              <TouchableOpacity
+                className="bg-[#7b091c] px-2 py-2 rounded-lg mb-2"
+                onPress={handleAddToCart}
+              >
+                <Text className="font-normalFont text-[12px] text-white">
+                  Add to Cart
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -158,18 +154,42 @@ const ProductItem = ({ product }) => {
 };
 
 const Products = ({ products }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const {
+    themeColor,
+    setThemeColor,
+    colorScheme,
+    setColorScheme,
+    toggleColorMode,
+  } = useThemeColor();
   return (
-    <View
-      style={{ flex: 1 }}
-      className="border-l-4 border-r-4 border-t-4 rounded-2xl border-[#7b091c]"
-    >
+    <View style={{ flex: 1 }} className="border-4 rounded-2xl border-[#7b091c]">
+      <View className="flex flex-row justify-center items-center m-6">
+        <Text
+          className="font-boldFont text-xs"
+          style={{ color: colorScheme === "#121212" ? "white" : "black" }}
+        >
+          Looking for something?{" "}
+        </Text>
+        <TouchableOpacity onPress={handleClick}>
+          <Text className="font-boldFont text-xs text-[#7b091c]">
+            Click to search!
+          </Text>
+        </TouchableOpacity>
+        {isVisible && <SearchBar />}
+      </View>
       <FlatList
         data={products}
         renderItem={({ item }) => <ProductItem product={item} />}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         contentContainerStyle={{
-          paddingBottom: 2,
+          paddingBottom: 100,
         }}
       />
     </View>

@@ -3,6 +3,10 @@ import { Stack } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { useThemeColor } from "./../hooks/useThemeColor";
 import { Ionicons } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import CustomCalendar from "./../components/Calender";
+import AddressForm from "./../components/Addresses";
 import {
   View,
   Text,
@@ -16,7 +20,7 @@ import {
 
 export default function ProfileMenu() {
   const [fullName, setFullName] = useState("Marie Curie");
-  const [dob, setDOB] = useState("1990-01-01");
+  const [dob, setDOB] = useState(new Date("1990-01-01"));
   const [state, setState] = useState("");
   const [cityRegion, setCityRegion] = useState("");
   const [address1, setAddress1] = useState("");
@@ -24,6 +28,32 @@ export default function ProfileMenu() {
   const [lastDayLastPeriod, setLastDayLastPeriod] = useState("");
   const [cycleLength, setCycleLength] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  // Function to enable editing
+  const startEditing = () => {
+    setIsEditing(true);
+  };
+
+  // Function to save changes and disable editing
+  const saveChanges = () => {
+    setIsEditing(false);
+    // You can perform any additional logic to save the changes here
+  };
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleDateConfirm = (date) => {
+    setDOB(date);
+    hideDatePicker();
+  };
 
   const {
     themeColor,
@@ -70,12 +100,15 @@ export default function ProfileMenu() {
           ),
         }}
       />
-      <ScrollView>
+      <KeyboardAwareScrollView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View style={styles.container}>
           <Text
             className="font-boldFont text-2xl"
             style={{
               marginBottom: 20,
+              color: colorScheme === "#121212" ? "white" : "black",
             }}
           >
             Profile
@@ -85,84 +118,109 @@ export default function ProfileMenu() {
             style={{
               marginTop: 20,
               marginBottom: 10,
+              color: colorScheme === "#121212" ? "white" : "black",
             }}
           >
             Basic Information
           </Text>
           <TextInput
-            style={styles.input}
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+              color: colorScheme === "#121212" ? "white" : "black",
+            }}
             value={fullName}
             onChangeText={setFullName}
+            placeholderTextColor={`${
+              colorScheme === "#121212" ? "white" : "black"
+            }`}
             placeholder="Full Name"
+            editable={isEditing}
+            className="font-normalFont text-xs"
           />
           <TextInput
-            style={styles.input}
-            value={dob}
-            onChangeText={setDOB}
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+              color: colorScheme === "#121212" ? "white" : "black",
+            }}
+            value={dob.toDateString()}
+            placeholderTextColor={`${
+              colorScheme === "#121212" ? "white" : "black"
+            }`}
             placeholder="Date of Birth"
+            editable={false}
+            className="font-normalFont text-xs"
           />
-          <Button title="Upload Picture" onPress={() => {}} />
+          <View className="flex justify-center items-center">
+            {isEditing ? (
+              <View className="flex flex-row justify-between gap-8">
+                <TouchableOpacity
+                  className="bg-blue-600 rounded-lg px-10 py-4"
+                  onPress={showDatePicker}
+                >
+                  <Text className="font-mediumFont text-xs text-white">
+                    Pick date
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="bg-[#7b091c] rounded-lg px-10 py-4"
+                  onPress={saveChanges}
+                >
+                  <Text className="font-mediumFont text-xs text-white">
+                    Save
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity
+                className="bg-[#bd6379] rounded-lg px-10 py-4"
+                onPress={startEditing}
+              >
+                <Text className="font-mediumFont text-xs text-white">Edit</Text>
+              </TouchableOpacity>
+            )}
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleDateConfirm}
+              onCancel={hideDatePicker}
+            />
+          </View>
           <Text
             className="font-boldFont text-lg"
             style={{
               marginTop: 20,
               marginBottom: 10,
+              color: colorScheme === "#121212" ? "white" : "black",
             }}
           >
             Addresses
           </Text>
-          <TextInput
-            style={styles.input}
-            value={state}
-            onChangeText={setState}
-            placeholder="State"
-          />
-          <TextInput
-            style={styles.input}
-            value={cityRegion}
-            onChangeText={setCityRegion}
-            placeholder="City / Region"
-          />
-          <TextInput
-            style={styles.input}
-            value={address1}
-            onChangeText={setAddress1}
-            placeholder="Address 1"
-          />
-          <Button title="Add Address" onPress={() => {}} />
+          <AddressForm />
           <Text
             className="font-boldFont text-lg"
             style={{
               marginTop: 20,
               marginBottom: 10,
+              color: colorScheme === "#121212" ? "white" : "black",
             }}
           >
             Dates
           </Text>
-          <TextInput
-            style={styles.input}
-            value={firstDayLastPeriod}
-            onChangeText={setFirstDayLastPeriod}
-            placeholder="First day of your last period?"
-          />
-          <TextInput
-            style={styles.input}
-            value={lastDayLastPeriod}
-            onChangeText={setLastDayLastPeriod}
-            placeholder="Last day of your last period?"
-          />
-          <TextInput
-            style={styles.input}
-            value={cycleLength}
-            onChangeText={setCycleLength}
-            placeholder="How long is your cycle?"
-          />
-          <Button title="Save" onPress={() => {}} />
+          <CustomCalendar />
           <Text
             className="font-boldFont text-lg"
             style={{
               marginTop: 20,
               marginBottom: 10,
+              color: colorScheme === "#121212" ? "white" : "black",
             }}
           >
             Selected Items
@@ -172,7 +230,7 @@ export default function ProfileMenu() {
           ))}
           <Button title="Add Item" onPress={() => {}} />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

@@ -9,6 +9,7 @@ import {
   ScrollView,
   Dimensions,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -24,11 +25,14 @@ const RecentUpdates = ({
   userImageUrl,
   userName,
   text,
+  replies,
 }) => {
   const [commentInput, setCommentInput] = useState("");
+  const [replyInput, setReplyInput] = useState("");
   const [showFullCaption, setShowFullCaption] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isCommentModalVisible, setCommentModalVisible] = useState(false);
 
   const {
     themeColor,
@@ -46,12 +50,28 @@ const RecentUpdates = ({
     setModalVisible(false);
   };
 
+  const handleCommentModal = () => {
+    setCommentModalVisible(true);
+  };
+
+  const closeCommentModal = () => {
+    setCommentModalVisible(false);
+  };
+
   const handleCommentInput = (text) => {
     setCommentInput(text);
   };
 
-  const handleAddComment = () => {
+  const handleReplyInput = (text) => {
+    setReplyInput(text);
+  };
+
+  const handleAddComment = ({ text, postId }) => {
     // This is for Adding the comments to the database
+  };
+
+  const handleAddReplies = ({ text, commentId }) => {
+    // This is for Adding the replies to the database
   };
 
   return (
@@ -74,10 +94,14 @@ const RecentUpdates = ({
             backgroundColor: colorScheme,
           }}
         >
-          <Image source={imageUrl} className="h-72 w-full rounded-lg" />
-          <Text className="mt-2 font-boldFont text-xl text-center text-[#bd6379]">
-            {header}
-          </Text>
+          <TouchableOpacity onPress={handleImageClick}>
+            <Image source={imageUrl} className="h-72 w-full rounded-lg" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleImageClick}>
+            <Text className="mt-2 font-boldFont text-xl text-center text-[#bd6379]">
+              {header}
+            </Text>
+          </TouchableOpacity>
           <Text
             className="pt-4 font-mediumFont text-sm"
             style={{
@@ -90,58 +114,97 @@ const RecentUpdates = ({
             <TouchableOpacity onPress={handleImageClick}>
               <Text
                 className="font-normalFont text-xs"
-                style={{ color: `${themeColor}` }}
+                style={{
+                  color: `${colorScheme === "#121212" ? "#bd6379" : "#7b091c"}`,
+                }}
               >
                 {showFullCaption ? "See less" : "See more"}
               </Text>
             </TouchableOpacity>
           )}
-
+          <View className="mt-2 border border-b border-gray-300 rounded-lg"></View>
           <View className="mt-4">
             {showAllComments
               ? comments.map((comment, index) => (
                   <View
                     key={index}
-                    className="flex flex-row justify-start items-center mb-2"
+                    className="flex flex-col justify-start mb-2"
                   >
-                    <Image
-                      source={comment.userImage}
-                      className="h-6 w-6 rounded-full mr-2"
-                    />
-                    <View className="mt-1">
-                      <Text
-                        className="font-boldFont text-xs"
-                        style={{
-                          color: `${
-                            colorScheme === "#121212" ? "white" : "black"
-                          }`,
-                        }}
-                      >
-                        {comment.userName}
-                      </Text>
-                      <Text
-                        className="font-normalFont text-xs"
-                        style={{
-                          color: `${
-                            colorScheme === "#121212" ? "white" : "black"
-                          }`,
-                        }}
-                      >
-                        {comment.text}
-                      </Text>
+                    <View className="flex flex-row">
+                      <Image
+                        source={comment.userImage}
+                        className="h-6 w-6 rounded-full mr-2 mt-1"
+                      />
+                      <View className="">
+                        <Text
+                          className="font-boldFont text-xs"
+                          style={{
+                            color: `${
+                              colorScheme === "#121212" ? "white" : "black"
+                            }`,
+                          }}
+                        >
+                          {comment.userName}
+                        </Text>
+                        <Text
+                          className="font-normalFont text-xs"
+                          style={{
+                            color: `${
+                              colorScheme === "#121212" ? "white" : "black"
+                            }`,
+                          }}
+                        >
+                          {comment.text}
+                        </Text>
+                      </View>
+                    </View>
+                    <View className="flex flex-col items-start">
+                      {comment.replies.map((reply, replyIndex) => (
+                        <View
+                          key={replyIndex}
+                          className="flex flex-row justify-start items-center ml-6 mb-2"
+                        >
+                          <Image
+                            source={reply.userImage}
+                            className="h-6 w-6 rounded-full mr-2"
+                          />
+                          <View className="mt-1">
+                            <Text
+                              className="font-boldFont text-xs"
+                              style={{
+                                color: `${
+                                  colorScheme === "#121212" ? "white" : "black"
+                                }`,
+                              }}
+                            >
+                              {reply.userName}
+                            </Text>
+                            <Text
+                              className="font-normalFont text-xs"
+                              style={{
+                                color: `${
+                                  colorScheme === "#121212" ? "white" : "black"
+                                }`,
+                              }}
+                            >
+                              {reply.text}
+                            </Text>
+                          </View>
+                        </View>
+                      ))}
                     </View>
                   </View>
                 ))
-              : comments.slice(0, 2).map((comment, index) => (
+              : comments.slice(0, 1).map((comment, index) => (
                   <View
                     key={index}
-                    className="flex flex-row justify-start items-center mb-2"
+                    className="flex flex-row justify-start mb-2 mt-1"
                   >
                     <Image
                       source={comment.userImage}
                       className="h-6 w-6 rounded-full mr-2"
                     />
-                    <View className="mt-1">
+                    <View className="">
                       <Text
                         className="font-boldFont text-xs"
                         style={{
@@ -162,19 +225,36 @@ const RecentUpdates = ({
                       >
                         {comment.text}
                       </Text>
+                      <View className="relative">
+                        <TouchableOpacity onPress={handleCommentModal}>
+                          <Text
+                            style={{
+                              color: `${
+                                colorScheme === "#121212"
+                                  ? "#bd6379"
+                                  : "#7b091c"
+                              }`,
+                            }}
+                          >
+                            Reply
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
                 ))}
 
             {comments.length > 2 && (
               <Text
-                onPress={() => setShowAllComments(!showAllComments)}
+                onPress={handleCommentModal}
                 className="font-normalFont text-xs mt-2"
-                style={{ color: `${themeColor}` }}
+                style={{
+                  color: `${colorScheme === "#121212" ? "#bd6379" : "#7b091c"}`,
+                }}
               >
                 {showAllComments
                   ? "Hide Comments"
-                  : `View ${comments.length - 2} more comments`}
+                  : `View all ${comments.length} comment(s)`}
               </Text>
             )}
           </View>
@@ -200,7 +280,7 @@ const RecentUpdates = ({
               <FontAwesome
                 name="send"
                 size={24}
-                color={"#7b091c"}
+                color={`${colorScheme === "#121212" ? "#bd6379" : "#7b091c"}`}
                 className="h-6 w-6"
               />
             </TouchableOpacity>
@@ -209,13 +289,187 @@ const RecentUpdates = ({
             {date}
           </Text>
 
-          <Modal visible={isModalVisible} transparent animationType="slide">
+          <Modal
+            visible={isCommentModalVisible}
+            transparent
+            animationType="slide"
+            onRequestClose={closeCommentModal}
+          >
+            <View
+              className="flex flex-1 justify-end"
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+            >
+              <View
+                className="bg-white rounded-t-3xl h-[90%] px-3 py-2"
+                style={{
+                  backgroundColor: `${
+                    colorScheme === "#121212" ? "#212121" : "#f2f2f2"
+                  }`,
+                }}
+              >
+                <View className="items-end">
+                  <AntDesign
+                    name="close"
+                    size={18}
+                    color="white"
+                    onPress={closeCommentModal}
+                    style={{
+                      backgroundColor: "#7b091c",
+                      borderRadius: 50,
+                      padding: 4,
+                    }}
+                  />
+                </View>
+                <Text
+                  className="font-boldFont text-center text-lg pb-2 -mt-4 border-b border-b-[#7b091c]"
+                  style={{
+                    color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                  }}
+                >
+                  Comments
+                </Text>
+                <ScrollView>
+                  {comments.map((comment, index) => (
+                    <View
+                      key={index}
+                      className="flex flex-col justify-start mb-2 mt-2"
+                    >
+                      <View className="flex flex-row">
+                        <Image
+                          source={comment.userImage}
+                          className="h-6 w-6 rounded-full mr-2 mt-1"
+                        />
+                        <View className="">
+                          <Text
+                            className="font-boldFont text-xs"
+                            style={{
+                              color: `${
+                                colorScheme === "#121212" ? "white" : "black"
+                              }`,
+                            }}
+                          >
+                            {comment.userName}
+                          </Text>
+                          <Text
+                            className="font-normalFont text-xs"
+                            style={{
+                              color: `${
+                                colorScheme === "#121212" ? "white" : "black"
+                              }`,
+                            }}
+                          >
+                            {comment.text}
+                          </Text>
+                        </View>
+                      </View>
+                      <View className="relative left-8">
+                        <TouchableOpacity>
+                          <Text
+                            style={{
+                              color: `${
+                                colorScheme === "#121212"
+                                  ? "#bd6379"
+                                  : "#7b091c"
+                              }`,
+                            }}
+                          >
+                            Reply
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View className="flex flex-col items-start">
+                        {comment.replies.map((reply, replyIndex) => (
+                          <View
+                            key={replyIndex}
+                            className="flex flex-row justify-start items-center ml-8 mb-2"
+                          >
+                            <Image
+                              source={reply.userImage}
+                              className="h-6 w-6 rounded-full mr-2"
+                            />
+                            <View className="mt-1">
+                              <Text
+                                className="font-boldFont text-xs"
+                                style={{
+                                  color: `${
+                                    colorScheme === "#121212"
+                                      ? "white"
+                                      : "black"
+                                  }`,
+                                }}
+                              >
+                                {reply.userName}
+                              </Text>
+                              <Text
+                                className="font-normalFont text-xs"
+                                style={{
+                                  color: `${
+                                    colorScheme === "#121212"
+                                      ? "white"
+                                      : "black"
+                                  }`,
+                                }}
+                              >
+                                {reply.text}
+                              </Text>
+                            </View>
+                          </View>
+                        ))}
+                        <View className="mt-2 flex flex-1 w-full border border-b border-gray-300 rounded-lg"></View>
+                      </View>
+                    </View>
+                  ))}
+                </ScrollView>
+                <View className="mt-4 flex flex-row justify-center items-center">
+                  <Image
+                    source={userImageUrl}
+                    className="h-8 w-8 rounded-full mr-2"
+                  />
+                  <TextInput
+                    placeholder="Type your reply..."
+                    placeholderTextColor={`${
+                      colorScheme === "#121212" ? "white" : "black"
+                    }`}
+                    value={replyInput}
+                    onChangeText={handleReplyInput}
+                    className="flex-grow border rounded-md py-1.5 px-4 font-normalFont text-xs"
+                    style={{
+                      borderColor: `${
+                        colorScheme === "#121212" ? "white" : "black"
+                      }`,
+                      color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                    }}
+                  />
+                  <TouchableOpacity
+                    onPress={handleAddReplies}
+                    className="ml-2 pr-2"
+                  >
+                    <FontAwesome
+                      name="send"
+                      size={24}
+                      color={`${
+                        colorScheme === "#121212" ? "#bd6379" : "#7b091c"
+                      }`}
+                      className="h-6 w-6"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
+          <Modal
+            visible={isModalVisible}
+            transparent
+            animationType="slide"
+            onRequestClose={closeModal}
+          >
             <View
               className="flex flex-col flex-1 items-center p-4"
               style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
             >
               <View
-                className="flex flex-1 flex-col bg-white w-full border-8 "
+                className="flex flex-1 flex-col w-full border-8 "
                 style={{
                   borderColor: `${themeColor}`,
                   backgroundColor: colorScheme,

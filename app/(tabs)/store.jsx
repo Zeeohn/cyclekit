@@ -1,5 +1,12 @@
-import { View, Text, ScrollView, SafeAreaView, Dimensions } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
 import { Stack, useRouter } from "expo-router";
 import { FontAwesome5 } from "@expo/vector-icons";
 import SearchBar from "./../../components/SearchBar";
@@ -68,6 +75,7 @@ let height = Dimensions.get("window").height;
 height = height - 125;
 
 export default function store() {
+  const [isVisible, setIsVisible] = useState(false);
   const {
     themeColor,
     setThemeColor,
@@ -75,6 +83,10 @@ export default function store() {
     setColorScheme,
     toggleColorMode,
   } = useThemeColor();
+
+  const handleClick = () => {
+    setIsVisible(!isVisible);
+  };
 
   return (
     <SafeAreaView>
@@ -84,14 +96,14 @@ export default function store() {
           headerLeft: () => <SearchBar />,
           headerRight: () => (
             <View className="mr-6">
-              <FontAwesome5 name="cart-plus" size={24} color={themeColor} />
+              <FontAwesome5 name="cart-plus" size={24} color="#7b091c" />
             </View>
           ),
           headerTitle: () => (
             <Text
               className="font-boldFont text-xl"
               style={{
-                color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "#7b091c"}`,
               }}
             >
               Store
@@ -100,7 +112,7 @@ export default function store() {
           headerTitleAlign: "center",
         }}
       />
-      <View style={{ height: height, backgroundColor: colorScheme }}>
+      <View className="h-full" style={{ backgroundColor: colorScheme }}>
         <Products products={products} />
       </View>
     </SafeAreaView>

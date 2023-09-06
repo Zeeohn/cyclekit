@@ -6,14 +6,17 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  Switch,
+  Modal,
+  FlatList,
 } from "react-native";
-import { SvgUri } from "react-native-svg"; // Import SvgUri from react-native-svg
+import { SvgUri } from "react-native-svg";
 import * as ImagePicker from "expo-image-picker";
+import Slider from "@react-native-community/slider";
 import { useThemeColor } from "../hooks/useThemeColor";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { ColorPicker } from "react-native-color-picker";
 
-const DefaultProfilePhoto = () => (
+const DefaultProfilePhoto = ({ profilePhoto }) => (
   <View>
     <Image
       className="w-48 h-48 rounded-full"
@@ -24,10 +27,44 @@ const DefaultProfilePhoto = () => (
   </View>
 );
 
+const avatars = [
+  require("../assets/images/avatar-1.png"),
+  require("../assets/images/avatar-2.png"),
+  require("../assets/images/avatar-3.png"),
+  require("../assets/images/avatar-4.png"),
+  require("../assets/images/avatar-5.png"),
+  require("../assets/images/avatar-6.png"),
+  require("../assets/images/avatar-7.png"),
+  require("../assets/images/avatar-8.png"),
+  require("../assets/images/avatar-9.png"),
+  require("../assets/images/avatar-10.png"),
+  require("../assets/images/avatar-11.png"),
+  require("../assets/images/avatar-12.png"),
+  require("../assets/images/avatar-13.png"),
+  require("../assets/images/avatar-14.png"),
+];
+
+const colors = [
+  "#FF5733",
+  "#FFC300",
+  "#33FF57",
+  "#33C6FF",
+  "#9A33FF",
+  "#FF33E9",
+  "#33FFC6",
+  "#3340FF",
+  "#33FF9A",
+];
+
 const Profile = ({ profileData, onUpdateProfile }) => {
   const [editing, setEditing] = useState(false);
   const [editedProfileData, setEditedProfileData] = useState(profileData);
   const [selectedImage, setSelectedImage] = useState(profileData.profilePhoto);
+  const [avatarModalVisible, setAvatarModalVisible] = useState(false);
+  const [colorModalVisible, setColorModalVisible] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [selectedColor, setSelectedColor] = useState("#FFFFFF");
+
   const {
     themeColor,
     setThemeColor,
@@ -54,34 +91,152 @@ const Profile = ({ profileData, onUpdateProfile }) => {
     setEditing(false);
   };
 
+  const handleAvatarSelect = (avatar) => {
+    setSelectedAvatar(avatar);
+    setAvatarModalVisible(false);
+    setColorModalVisible(true);
+  };
+
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+    setColorModalVisible(false);
+    setSelectedImage(null);
+    onUpdateProfile(
+      { ...profileData, profilePhoto: selectedAvatar },
+      selectedColor
+    );
+    setEditing(false);
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleImageUpload}>
+      <View>
         {selectedImage ? (
           <View>
             <Image
               style={styles.profilePhoto}
               source={{ uri: selectedImage }}
             />
-            <TouchableOpacity
-              style={styles.editIconContainer}
-              onPress={handleImageUpload}
-            >
-              <Ionicons name="ios-pencil" size={24} color="white" />
-            </TouchableOpacity>
+          </View>
+        ) : selectedAvatar ? (
+          <View
+            className="rounded-full"
+            style={{ backgroundColor: selectedColor }}
+          >
+            <Image
+              source={selectedAvatar}
+              className="w-48 h-48 rounded-full"
+              resizeMode="contain"
+            />
           </View>
         ) : (
           <View>
-            <DefaultProfilePhoto />
-            <TouchableOpacity
-              style={styles.editIconContainer}
-              onPress={handleImageUpload}
-            >
-              <Ionicons name="ios-pencil" size={24} color="white" />
-            </TouchableOpacity>
+            <DefaultProfilePhoto profilePhoto={profileData.profilePhoto} />
           </View>
         )}
-      </TouchableOpacity>
+      </View>
+      <View className="flex flex-row gap-4 justify-between mt-4 p-2">
+        <TouchableOpacity
+          className="bg-[#7b091c] px-4 py-4 rounded-lg"
+          onPress={() => setAvatarModalVisible(true)}
+        >
+          <Text className="font-mediumFont text-xs text-white">
+            Choose Avatar
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          className="bg-[#7b091c] px-4 py-4 rounded-lg"
+          onPress={handleImageUpload}
+        >
+          <Text className="font-mediumFont text-xs text-white">
+            Upload Picture
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <Modal
+        visible={avatarModalVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View
+          className="flex flex-col flex-1 items-center p-2"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+        >
+          <View className="flex flex-1 flex-col items-center justify-center w-full border-2 rounded-xl p-2 h-[80%] bg-white">
+            <View className="items-end left-36 mb-4">
+              <AntDesign
+                name="close"
+                size={22}
+                color="white"
+                onPress={() => setAvatarModalVisible(false)}
+                style={{
+                  backgroundColor: `${themeColor}`,
+                  borderRadius: 50,
+                  padding: 4,
+                }}
+              />
+            </View>
+            <Text className="font-boldFont text-lg text-center -mt-8">
+              Choose Avatar
+            </Text>
+            <FlatList
+              data={avatars}
+              keyExtractor={(item) => item.toString()}
+              numColumns={3}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  className="items-center m-2"
+                  onPress={() => handleAvatarSelect(item)}
+                >
+                  <Image className="w-24 h-24 rounded-full" source={item} />
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        visible={colorModalVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View
+          className="flex flex-col flex-1 items-center p-2"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+        >
+          <View className="flex flex-1 flex-col items-center justify-center w-full border-2 rounded-xl p-2 h-[80%] bg-white">
+            <View className="items-end left-36 mb-4">
+              <AntDesign
+                name="close"
+                size={22}
+                color="white"
+                onPress={() => setColorModalVisible(false)}
+                style={{
+                  backgroundColor: `${themeColor}`,
+                  borderRadius: 50,
+                  padding: 4,
+                }}
+              />
+            </View>
+            <Text className="font-boldFont text-lg text-center -mt-4">
+              Choose Background Color
+            </Text>
+            <FlatList
+              data={colors}
+              keyExtractor={(item) => item}
+              numColumns={2}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  className="w-24 h-24 rounded-lg m-4 items-center justify-center"
+                  style={[styles.colorOption, { backgroundColor: item }]}
+                  onPress={() => handleColorSelect(item)}
+                />
+              )}
+            />
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.detailsContainer}>
         <Text
           className="font-boldFont text-xl"

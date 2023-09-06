@@ -43,7 +43,7 @@ export default function Settings() {
 
     return colorsArr.map((color) => (
       <TouchableOpacity
-        className="colors h-7 w-7 rounded-full mb-5 mt-4"
+        className="colors h-24 w-24 rounded-full mb-5 mt-4"
         key={color}
         onPress={() => setThemeColor(color)}
         style={{
@@ -131,6 +131,7 @@ export default function Settings() {
         style={{
           display: "flex",
           flexDirection: "row",
+          flexWrap: "wrap",
           justifyContent: "center",
           gap: 10,
           marginTop: 10,

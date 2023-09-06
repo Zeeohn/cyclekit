@@ -3,6 +3,8 @@ import { View, StyleSheet, Text, TouchableOpacity, Modal } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { useThemeColor } from "./../hooks/useThemeColor";
 import { Calendar } from "react-native-calendars";
+import { AntDesign } from "@expo/vector-icons";
+import CustomCalendar from "./Calender";
 
 const HomeAnimation = () => {
   const {
@@ -16,18 +18,12 @@ const HomeAnimation = () => {
   const [selectedDates, setSelectedDates] = useState({});
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const handleDateSelect = (day) => {
-    const selectedDate = day.dateString;
-    if (selectedDates[selectedDate]) {
-      const updatedDates = { ...selectedDates };
-      delete updatedDates[selectedDate];
-      setSelectedDates(updatedDates);
-    } else {
-      setSelectedDates({
-        ...selectedDates,
-        [selectedDate]: { selected: true },
-      });
-    }
+  const openCalender = () => {
+    setShowCalendar(true);
+  };
+
+  const closeCalender = () => {
+    setShowCalendar(false);
   };
 
   const radii = [130, 110];
@@ -59,14 +55,19 @@ const HomeAnimation = () => {
   //   const svgHeight = radii[0] * 2 + 20;
 
   return (
-    <View className="flex justify-center items-center m-8 px-4">
+    <View className="flex justify-center items-center mt-3 mb-8 px-4">
       <Svg
         width={svgWidth}
         height={svgWidth}
         viewBox={`-10 -10 ${svgWidth} ${svgWidth}`}
       >
         {renderDots("#0c61e2", radii[0])}
-        {renderDots("red", radii[1], radii[0] - radii[1], radii[0] - radii[1])}
+        {renderDots(
+          "#7b091c",
+          radii[1],
+          radii[0] - radii[1],
+          radii[0] - radii[1]
+        )}
       </Svg>
       <View style={styles.centerContent}>
         <Text
@@ -94,7 +95,7 @@ const HomeAnimation = () => {
           10 days
         </Text>
         <TouchableOpacity
-          onPress={() => setShowCalendar(true)}
+          onPress={openCalender}
           className="bg-black mt-3 px-4 py-1 rounded-xl"
           style={{
             backgroundColor: `${colorScheme === "#121212" ? "white" : "black"}`,
@@ -112,14 +113,29 @@ const HomeAnimation = () => {
         <Modal
           animationType="slide"
           visible={showCalendar}
-          onRequestClose={() => setShowCalendar(false)}
+          transparent
+          onRequestClose={closeCalender}
         >
-          <View style={styles.modalContainer}>
-            <Calendar
-              style={styles.calendar}
-              markedDates={selectedDates}
-              onDayPress={handleDateSelect}
-            />
+          <View
+            className="flex flex-col flex-1 items-center p-2"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+          >
+            <View className="flex flex-1 flex-col w-full border-2 rounded-xl p-2 h-[80%] bg-white">
+              <View className="items-end mb-4">
+                <AntDesign
+                  name="close"
+                  size={22}
+                  color="white"
+                  onPress={closeCalender}
+                  style={{
+                    backgroundColor: `${themeColor}`,
+                    borderRadius: 50,
+                    padding: 4,
+                  }}
+                />
+              </View>
+              <CustomCalendar />
+            </View>
           </View>
         </Modal>
         {/* {Object.keys(selectedDates).length > 0 && (
@@ -139,8 +155,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    margin: 8,
-    padding: 4,
   },
   centerContent: {
     position: "absolute",

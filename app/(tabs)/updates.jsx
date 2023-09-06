@@ -39,16 +39,52 @@ export default function updates() {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "GB2343419",
           text: "Nice Idea",
+          replies: [
+            {
+              userImage: require("../../assets/images/logo-cyclekits.png"),
+              userName: "TR893343",
+              text: "this is a reply",
+            },
+            {
+              userImage: require("../../assets/images/logo-cyclekits.png"),
+              userName: "TR893343",
+              text: "this is a reply",
+            },
+          ],
         },
         {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "ZS09838434",
           text: "Love This!",
+          replies: [
+            {
+              userImage: require("../../assets/images/logo-cyclekits.png"),
+              userName: "BZ67232",
+              text: "this is another reply",
+            },
+            {
+              userImage: require("../../assets/images/logo-cyclekits.png"),
+              userName: "BZ67232",
+              text: "this is another reply",
+            },
+          ],
         },
         {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "TJ65098840",
           text: "Will definitely try it",
+          replies: [
+            {
+              userImage: require("../../assets/images/logo-cyclekits.png"),
+              userName: "YK34545",
+              text: "this is a third reply",
+            },
+            {
+              userImage: require("../../assets/images/logo-cyclekits.png"),
+              userName: "YK34545",
+              text: "this is a third reply",
+            },
+          ],
         },
       ],
     },
@@ -64,16 +100,19 @@ export default function updates() {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "GB2343419",
           text: "Nice Idea",
+          replies: [],
         },
         {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "ZS09838434",
           text: "Love This!",
+          replies: [],
         },
         {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "TJ65098840",
           text: "Will definitely try it",
+          replies: [],
         },
       ],
     },
@@ -89,25 +128,26 @@ export default function updates() {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "GB2343419",
           text: "Nice Idea",
+          replies: [],
         },
         {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "ZS09838434",
           text: "Love This!",
+          replies: [],
         },
         {
           userImage: require("../../assets/images/logo-cyclekits.png"),
           userName: "TJ65098840",
           text: "Will definitely try it",
+          replies: [],
         },
       ],
     },
   ];
   return (
     <SafeAreaView style={{ backgroundColor: colorScheme }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+      <KeyboardAvoidingView>
         <Stack.Screen
           options={{
             headerLeft: () => <SearchBar />,
@@ -116,7 +156,7 @@ export default function updates() {
               <Text
                 className="font-boldFont text-xl ml-4"
                 style={{
-                  color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                  color: `${colorScheme === "#121212" ? "white" : "#7b091c"}`,
                 }}
               >
                 Recent Updates
@@ -126,8 +166,8 @@ export default function updates() {
           }}
         />
         <View
-          style={{ height: height, backgroundColor: colorScheme }}
-          className="mb-4 pt-4 border-l-4 border-r-4 border-t-4 rounded-2xl border-[#7b091c]"
+          style={{ backgroundColor: colorScheme }}
+          className="mb-4 p-2 border-4 rounded-2xl border-[#7b091c]"
         >
           <ScrollView>
             {posts.map((post, index) => (

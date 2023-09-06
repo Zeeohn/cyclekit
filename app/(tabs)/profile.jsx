@@ -88,7 +88,7 @@ export default function ProfileScreen() {
             <Text
               className="font-boldFont text-xl"
               style={{
-                color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "#7b091c"}`,
               }}
             >
               Account
@@ -97,7 +97,7 @@ export default function ProfileScreen() {
           headerTitleAlign: "center",
         }}
       />
-      <ScrollView style={{ height: height, marginBottom: 80 }}>
+      <ScrollView style={{ height: height }}>
         <View style={styles.content}>
           <Profile
             profileData={profileData}
@@ -141,9 +141,13 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     paddingVertical: 20,
+    marginBottom: 80,
+    borderWidth: 4,
+    borderColor: "#7b091c",
+    borderRadius: 10,
   },
   navigationItem: {
     marginVertical: 3,
@@ -152,8 +156,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#bd6379",
-    width: "90%",
-    alignItems: "flex-start",
+    width: "60%",
+    alignItems: "center",
     shadowColor: "#bd6379",
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.73,

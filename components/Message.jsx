@@ -76,7 +76,7 @@ const Chats = ({ item }) => {
       ]}
     >
       <View style={state ? styles.pdlt10 : styles.pdrt10}>
-        <View
+        {/* <View
           style={{
             width: 40,
             height: 40,
@@ -91,7 +91,7 @@ const Chats = ({ item }) => {
           <Text style={{ color: "white" }} className="font-boldFont">
             {item.initials}
           </Text>
-        </View>
+        </View> */}
       </View>
       <View>
         <View

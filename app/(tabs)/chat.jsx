@@ -63,7 +63,7 @@ export default function Chat() {
   const notifications = "2";
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView style={{ backgroundColor: themeColor }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: colorScheme },
@@ -92,7 +92,7 @@ export default function Chat() {
             <Text
               className="font-boldFont text-xl"
               style={{
-                color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                color: `${colorScheme === "#121212" ? "white" : "#7b091c"}`,
               }}
             >
               Chat
@@ -101,14 +101,25 @@ export default function Chat() {
           headerTitleAlign: "center",
         }}
       />
-      <View style={{ height: height }}>
+      <View
+        style={{
+          borderColor: "#7b091c",
+          borderWidth: 4,
+          borderRadius: 10,
+          padding: 2,
+          backgroundColor: themeColor,
+        }}
+      >
         <FlatList
           data={chatData}
           renderItem={({ item }) => (
-            <Message text={item.text} sender={item.sender} img={item.img} />
+            <Message text={item.text} sender={item.sender} />
           )}
           keyExtractor={(item, index) => String(index)}
-          contentContainerStyle={{ backgroundColor: themeColor }}
+          contentContainerStyle={{
+            backgroundColor: themeColor,
+            paddingBottom: 80,
+          }}
         />
       </View>
     </KeyboardAwareScrollView>
