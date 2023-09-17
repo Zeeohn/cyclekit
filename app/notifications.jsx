@@ -11,7 +11,7 @@ import { Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function notifications() {
+export default function Notifications() {
   const notificationsData = [
     {
       id: 1,

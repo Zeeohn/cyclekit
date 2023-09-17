@@ -79,19 +79,22 @@ const RecentUpdates = ({
       <View
         className="flex-1"
         style={{
-          backgroundColor: colorScheme,
+          shadowColor: "#7b091c",
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
+          elevation: 2,
+          borderRadius: 10,
+          margin: 5,
+          marginBottom: 10,
         }}
       >
         <View
-          className="m-2 p-2 border-[#bd6379] border-4"
+          className="m-2 pl-2 pr-2 pt-2 -pb-8 border-[#bd6379] border-4"
           style={{
-            shadowColor: "#bd6379",
-            shadowOffset: { width: 0, height: 12 },
-            shadowOpacity: 0.73,
-            shadowRadius: 5,
-            borderRadius: 15,
-            elevation: 14,
+            marginLeft: -3,
+            marginTop: -3,
             backgroundColor: colorScheme,
+            borderRadius: 10,
           }}
         >
           <TouchableOpacity onPress={handleImageClick}>
@@ -471,8 +474,9 @@ const RecentUpdates = ({
               <View
                 className="flex flex-1 flex-col w-full border-8 "
                 style={{
-                  borderColor: `${themeColor}`,
+                  borderColor: "#bd6379",
                   backgroundColor: colorScheme,
+                  borderRadius: 10,
                 }}
               >
                 <View className="items-end right-1 top-1">

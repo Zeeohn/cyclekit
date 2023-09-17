@@ -29,7 +29,7 @@ let height = Dimensions.get("window").height;
 height = height - 20;
 // height = height - 80;
 
-export default function index() {
+export default function Customer() {
   const [text, setText] = useState("User Preference");
   const [isHeaderShown, setIsHeaderShown] = useState(true);
 
@@ -180,9 +180,9 @@ export default function index() {
           </View>
         </View>
         <View className="border border-b border-gray-300 rounded-lg"></View>
-        <View className="flex flex-row mt-4 mb-40 items-center mx-2">
+        <View className="flex flex-col mt-4 mb-40">
           <Text
-            className="font-boldFont text-xl"
+            className="font-boldFont text-center text-xl"
             style={{
               color: `${colorScheme === "#121212" ? "white" : "black"}`,
             }}
@@ -190,13 +190,13 @@ export default function index() {
             Preference:
           </Text>
           <Text
-            className="flex-1 pt-2 font-normalFont border-b-2  ml-1 text-center"
+            className="flex-1 pt-2 pb-2 font-normalFont border-b-2 mx-8 text-center"
             style={{
               borderColor: `${colorScheme === "#121212" ? "white" : "black"}`,
               color: `${colorScheme === "#121212" ? "white" : "black"}`,
             }}
           >
-            User Preference
+            Your Preference
           </Text>
         </View>
       </ScrollView>

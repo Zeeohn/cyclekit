@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import "../global.css";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
 export { ErrorBoundary } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default function Index() {
   const [loaded, error] = useFonts({
     DMSans: require("../assets/fonts/DMSans-Regular.ttf"),
     "DMSans-Medium": require("../assets/fonts/DMSans-Medium.ttf"),
@@ -32,18 +32,31 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-  // const colorScheme = useColorScheme();
   return (
     <Provider store={store}>
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+        {/* <Stack /> */}
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(customer)" options={{ headerShown: false }} />
+          <Stack.Screen name="(vendor)" options={{ headerShown: false }} />
         </Stack>
       </PersistGate>
     </Provider>
   );
+
+  // return <RootLayoutNav />;
 }
+
+// function RootLayoutNav() {
+//   // const colorScheme = useColorScheme();
+//   return (
+//     <Provider store={store}>
+//       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+//         <Stack />
+//         {/* <Stack>
+//           <Stack.Screen name="notifications" options={{ headerShown: false }} />
+//         </Stack> */}
+//       </PersistGate>
+//     </Provider>
+//   );
+// }

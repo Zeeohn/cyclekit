@@ -17,7 +17,7 @@ let height = Dimensions.get("window").height;
 // let height = Dimensions.get("window").height;
 height = height - 125;
 
-export default function updates() {
+export default function Updates() {
   const {
     themeColor,
     setThemeColor,
@@ -167,7 +167,7 @@ export default function updates() {
         />
         <View
           style={{ backgroundColor: colorScheme }}
-          className="mb-4 p-2 border-4 rounded-2xl border-[#7b091c]"
+          className="pl-2 pr-2 pt-2 pb-20 border-4 rounded-2xl border-[#7b091c]"
         >
           <ScrollView>
             {posts.map((post, index) => (

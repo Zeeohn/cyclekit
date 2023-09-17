@@ -74,7 +74,7 @@ let height = Dimensions.get("window").height;
 // let height = Dimensions.get("window").height;
 height = height - 125;
 
-export default function store() {
+export default function Store() {
   const [isVisible, setIsVisible] = useState(false);
   const {
     themeColor,

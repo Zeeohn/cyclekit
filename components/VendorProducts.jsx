@@ -8,21 +8,11 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Svg, { Path, Defs, Pattern, Rect } from "react-native-svg";
-import { useThemeColor } from "./../hooks/useThemeColor";
-import SearchBar from "./SearchBar";
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, activeButton }) => {
   const [isModalVisible, setModalVisible] = useState(false);
-
-  const {
-    themeColor,
-    setThemeColor,
-    colorScheme,
-    setColorScheme,
-    toggleColorMode,
-  } = useThemeColor();
 
   const handleImageClick = () => {
     setModalVisible(true);
@@ -37,10 +27,19 @@ const ProductItem = ({ product }) => {
   };
 
   return (
-    // <View className="flex flex-1">
-    // <View className="mb-4 w-2/4 shadow-md shadow-[#862d2d] border-0 drop-shadow-2xl rounded-md">
-    // <View className="m-2 border-2 border-[#bd6379] rounded-lg items-center justify-center h-full max-w-[240px] p-2 shadow-lg shadow-[2px 2px 2px 4px #bd6379]">
-    <View className="flex-1 m-1">
+    <View className="flex-1 m-1 mt-2">
+      <View className="flex flex-1 w-1/6 absolute z-50">
+        {activeButton === "pendingItems" && (
+          <TouchableOpacity className="rounded-md p-1 bg-gray-500 -top-2 justify-center relative left-36">
+            <MaterialIcons name="mode-edit" size={24} color="white" />
+          </TouchableOpacity>
+        )}
+        {activeButton === "myStoreItems" && (
+          <TouchableOpacity className="rounded-md p-1 bg-gray-500 top-60 justify-center relative left-36">
+            <MaterialIcons name="mode-edit" size={24} color="white" />
+          </TouchableOpacity>
+        )}
+      </View>
       <View
         style={{
           shadowColor: "#7b091c",
@@ -61,11 +60,16 @@ const ProductItem = ({ product }) => {
             <Image source={{ uri: product.imageUrl }} className="w-32 h-32" />
           </TouchableOpacity>
           <View className="justify-center items-center mt-2">
-            <Text className="font-boldFont text-lg">
+            <Text className="font-boldFont text-lg text-[#7b091c]">
               &#8358;{product.price}
             </Text>
-            <Text className="font-mediumFont text-sm">{product.name}</Text>
-            <View className="mt-2">
+            <Text className="font-mediumFont text-sm text-[#7b091c] pt-2">
+              {product.name}
+            </Text>
+            <Text className="font-mediumFont text-sm text-[#7b091c] pt-2">
+              ({product.stock}) stock
+            </Text>
+            {/* <View className="mt-2">
               <TouchableOpacity
                 className="bg-[#7b091c] px-2 py-2 rounded-lg mb-2"
                 onPress={handleAddToCart}
@@ -74,7 +78,7 @@ const ProductItem = ({ product }) => {
                   Add to Cart
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
 
@@ -86,7 +90,7 @@ const ProductItem = ({ product }) => {
           >
             <View
               className="flex flex-1 flex-col rounded-lg border-4"
-              style={{ borderColor: "#bd6379", backgroundColor: colorScheme }}
+              style={{ borderColor: "#bd6379", backgroundColor: "white" }}
             >
               <View className="items-end left-3 bottom-3 rounded-full p-1">
                 <AntDesign
@@ -95,7 +99,7 @@ const ProductItem = ({ product }) => {
                   color="white"
                   onPress={closeModal}
                   style={{
-                    backgroundColor: themeColor,
+                    backgroundColor: "#7b091c",
                     borderRadius: 50,
                     padding: 4,
                   }}
@@ -111,7 +115,7 @@ const ProductItem = ({ product }) => {
                 <Text
                   className="font-boldFont text-lg"
                   style={{
-                    color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                    color: "black",
                   }}
                 >
                   {product.name}
@@ -122,7 +126,7 @@ const ProductItem = ({ product }) => {
                 <Text
                   className="font-normalFont text-xs text-justify pt-2"
                   style={{
-                    color: `${colorScheme === "#121212" ? "white" : "black"}`,
+                    color: "black",
                   }}
                 >
                   {product.description}
@@ -132,7 +136,7 @@ const ProductItem = ({ product }) => {
                     onPress={handleAddToCart}
                     className="bg-black px-3 py-2 rounded-md"
                     style={{
-                      backgroundColor: themeColor,
+                      backgroundColor: "#7b091c",
                     }}
                   >
                     <Text className="font-normalFont text-xs text-white">
@@ -158,47 +162,26 @@ const ProductItem = ({ product }) => {
   );
 };
 
-const Products = ({ products }) => {
+const VendorProducts = ({ products, activeButton }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClick = () => {
     setIsVisible(!isVisible);
   };
 
-  const {
-    themeColor,
-    setThemeColor,
-    colorScheme,
-    setColorScheme,
-    toggleColorMode,
-  } = useThemeColor();
   return (
-    <View style={{ flex: 1 }} className="border-4 rounded-2xl border-[#7b091c]">
-      <View className="flex flex-row justify-center items-center m-6">
-        <Text
-          className="font-boldFont text-xs"
-          style={{ color: colorScheme === "#121212" ? "white" : "black" }}
-        >
-          Looking for something?{" "}
-        </Text>
-        <TouchableOpacity onPress={handleClick}>
-          <Text className="font-boldFont text-xs text-[#7b091c]">
-            Click to search!
-          </Text>
-        </TouchableOpacity>
-        {isVisible && <SearchBar />}
-      </View>
-      <FlatList
-        data={products}
-        renderItem={({ item }) => <ProductItem product={item} />}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        contentContainerStyle={{
-          paddingBottom: 100,
-        }}
-      />
-    </View>
+    <FlatList
+      data={products}
+      renderItem={({ item }) => (
+        <ProductItem product={item} activeButton={activeButton} />
+      )}
+      keyExtractor={(item) => item.id.toString()}
+      numColumns={2}
+      contentContainerStyle={{
+        paddingBottom: 100,
+      }}
+    />
   );
 };
 
-export default Products;
+export default VendorProducts;

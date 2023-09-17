@@ -8,6 +8,7 @@ import {
   TextInput,
   Modal,
   FlatList,
+  ScrollView,
 } from "react-native";
 import { SvgUri } from "react-native-svg";
 import * as ImagePicker from "expo-image-picker";
@@ -62,6 +63,7 @@ const Profile = ({ profileData, onUpdateProfile }) => {
   const [selectedImage, setSelectedImage] = useState(profileData.profilePhoto);
   const [avatarModalVisible, setAvatarModalVisible] = useState(false);
   const [colorModalVisible, setColorModalVisible] = useState(false);
+  const [selectedMode, setSelectedMode] = useState("avatar");
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedColor, setSelectedColor] = useState("#FFFFFF");
 
@@ -105,6 +107,14 @@ const Profile = ({ profileData, onUpdateProfile }) => {
       { ...profileData, profilePhoto: selectedAvatar },
       selectedColor
     );
+    setEditing(false);
+  };
+
+  const handleAvatarColorSelect = (avatar, color) => {
+    setSelectedAvatar(avatar);
+    setSelectedColor(color);
+    setAvatarColorModalVisible(false);
+    onUpdateProfile({ ...profileData, profilePhoto: avatar }, color);
     setEditing(false);
   };
 

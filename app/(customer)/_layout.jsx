@@ -26,7 +26,7 @@ import Svg, {
   Rect,
 } from "react-native-svg";
 
-export default function TabLayout() {
+export default function AppLayout() {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const navigation = useNavigation();
   const {
@@ -68,7 +68,6 @@ export default function TabLayout() {
       }
     );
 
-    // Clean up the listeners when the component unmounts
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -77,7 +76,6 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      initialRouteName="index"
       screenOptions={{
         headerShown: true,
         tabBarShowLabel: true,
@@ -107,7 +105,7 @@ export default function TabLayout() {
         name="updates"
         options={{
           title: "",
-          href: { pathname: "/updates" },
+          href: "/updates",
           tabBarIcon: ({ focused }) => (
             <View className="flex-col items-center mt-5">
               <Svg
@@ -139,7 +137,7 @@ export default function TabLayout() {
         name="store"
         options={{
           title: "",
-          href: { pathname: "/store" },
+          href: "/store",
           tabBarIcon: ({ focused }) => (
             <View className="flex-col items-center mt-5">
               <Svg
@@ -173,47 +171,46 @@ export default function TabLayout() {
           title: "",
           href: "/",
           tabBarIcon: ({ focused }) => (
-            <TouchableOpacity
-              onPress={navigateToHome}
-              style={{ position: "relative" }}
-            >
-              <View
-                className={`w-14 h-14 rounded-full justify-center items-center`}
-                style={{
-                  marginBottom: Platform.OS == "android" ? 50 : 40,
-                  backgroundColor: `${focused ? "#7b091c" : "#bd6379"}`,
-                }}
-              >
-                <Svg
-                  height="26"
-                  preserveAspectRatio="xMinYMin"
-                  viewBox="0 0 24 24"
-                  width="26"
-                  xmlns="http://www.w3.org/2000/svg"
+            <Link href="/" asChild>
+              <TouchableOpacity style={{ position: "relative" }}>
+                <View
+                  className={`w-14 h-14 rounded-full justify-center items-center`}
+                  style={{
+                    marginBottom: Platform.OS == "android" ? 50 : 40,
+                    backgroundColor: `${focused ? "#7b091c" : "#bd6379"}`,
+                  }}
                 >
-                  <Path
-                    d="m21.8844 15.2984c-.1566 1.7331-.4084 3.1414-.7147 4.3979-.2042 1.2566-1.4294 2.3037-2.7566 2.3037h-1.6336c-.9189 0-1.6336-.733-1.6336-1.6754v-4.2932c0-1.0471-.8168-1.8848-1.8378-1.8848h-2.3483c-1.02096 0-1.83775.8377-1.83775 1.8848v4.2932c0 .9424-.71469 1.6754-1.63358 1.6754h-1.93988c-1.32729 0-2.45038-.9424-2.75668-2.3037-.30629-1.3612-.57186-2.6636-.71469-4.3979-.18126-2.201 0-4.2932.1021-5.65442 0-.8377.5105-1.67539 1.22519-2.19895l7.14689-4.92147c.4084-.31414.9189-.52356 1.4294-.52356s1.1231.20942 1.5315.52356l7.1469 4.92147c.7147.52356 1.2252 1.36125 1.2252 2.19895.1021 1.36122.1987 3.45532 0 5.65442z"
-                    fill="white"
-                  />
-                </Svg>
-              </View>
+                  <Svg
+                    height="26"
+                    preserveAspectRatio="xMinYMin"
+                    viewBox="0 0 24 24"
+                    width="26"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <Path
+                      d="m21.8844 15.2984c-.1566 1.7331-.4084 3.1414-.7147 4.3979-.2042 1.2566-1.4294 2.3037-2.7566 2.3037h-1.6336c-.9189 0-1.6336-.733-1.6336-1.6754v-4.2932c0-1.0471-.8168-1.8848-1.8378-1.8848h-2.3483c-1.02096 0-1.83775.8377-1.83775 1.8848v4.2932c0 .9424-.71469 1.6754-1.63358 1.6754h-1.93988c-1.32729 0-2.45038-.9424-2.75668-2.3037-.30629-1.3612-.57186-2.6636-.71469-4.3979-.18126-2.201 0-4.2932.1021-5.65442 0-.8377.5105-1.67539 1.22519-2.19895l7.14689-4.92147c.4084-.31414.9189-.52356 1.4294-.52356s1.1231.20942 1.5315.52356l7.1469 4.92147c.7147.52356 1.2252 1.36125 1.2252 2.19895.1021 1.36122.1987 3.45532 0 5.65442z"
+                      fill="white"
+                    />
+                  </Svg>
+                </View>
 
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: 42, // Adjust this value to position the semi-circle vertically
-                  left: -6,
-                  right: 0,
-                  width: 70,
-                  height: 35, // Adjust this value to control the size of the semi-circle
-                  backgroundColor: colorScheme,
-                  borderBottomLeftRadius: 50, // Half of the height to create a semi-circle
-                  borderBottomRightRadius: 50, // Half of the height to create a semi-circle
-                  zIndex: -2,
-                  overflow: "hidden",
-                }}
-              />
-            </TouchableOpacity>
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: 42,
+                    left: -6,
+                    right: 0,
+                    width: 70,
+                    height: 35,
+                    backgroundColor: colorScheme,
+                    borderBottomLeftRadius: 50,
+                    borderBottomRightRadius: 50,
+                    zIndex: -2,
+                    overflow: "hidden",
+                  }}
+                />
+              </TouchableOpacity>
+            </Link>
           ),
         }}
       />

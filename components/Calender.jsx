@@ -59,7 +59,7 @@ const CustomCalendar = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [cycleData, setCycleData] = useState({
     start: "2023-08-06", // Use ISO date format (YYYY-MM-DD)
-    end: "14",
+    end: "2023-08-14",
     length: "28",
   });
 
@@ -174,7 +174,7 @@ const CustomCalendar = () => {
   const handleDateConfirm = (date) => {
     // Format the selected date as "YYYY-MM-DD"
     const formattedDate = date.toISOString().split("T")[0];
-    setCycleData({ ...cycleData, start: formattedDate });
+    setCycleData({ ...cycleData, start: formattedDate, end: formattedDate });
     hideDatePicker();
   };
 
@@ -235,7 +235,7 @@ const CustomCalendar = () => {
       ) : (
         <View style={styles.formContainer}>
           <Text className="font-mediumFont text-xs pb-1">
-            Start of Previous Period:
+            First day of your last period?
           </Text>
           <TextInput
             className="font-normalFont text-xs rounded-lg"
@@ -250,16 +250,23 @@ const CustomCalendar = () => {
             onCancel={hideDatePicker}
           />
           <Text className="font-mediumFont text-xs pb-1">
-            End of Last Period:
+            Last day of your last period?
           </Text>
           <TextInput
             className="font-normalFont text-xs rounded-lg"
             style={styles.input}
-            keyboardType="numeric"
             value={cycleData.end}
-            onChangeText={(text) => setCycleData({ ...cycleData, end: text })}
+            onFocus={showDatePicker}
           />
-          <Text className="font-mediumFont text-xs pb-1">Length of Cycle:</Text>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleDateConfirm}
+            onCancel={hideDatePicker}
+          />
+          <Text className="font-mediumFont text-xs pb-1">
+            How long is your cycle?
+          </Text>
           <TextInput
             className="font-normalFont text-xs rounded-lg"
             style={styles.input}
