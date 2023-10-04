@@ -27,16 +27,16 @@ const ProductItem = ({ product, activeButton }) => {
   };
 
   return (
-    <View className="flex-1 m-1 mt-2">
-      <View className="flex flex-1 w-1/6 absolute z-50">
+    <View className="flex-1 mt-2 relative">
+      <View className="flex z-50">
         {activeButton === "pendingItems" && (
-          <TouchableOpacity className="rounded-md p-1 bg-gray-500 -top-2 justify-center relative left-36">
-            <MaterialIcons name="mode-edit" size={24} color="white" />
+          <TouchableOpacity className="absolute rounded-md p-0.5 bg-gray-500  justify-center top-0 right-0 ">
+            <MaterialIcons name="mode-edit" size={20} color="white" />
           </TouchableOpacity>
         )}
         {activeButton === "myStoreItems" && (
-          <TouchableOpacity className="rounded-md p-1 bg-gray-500 top-60 justify-center relative left-36">
-            <MaterialIcons name="mode-edit" size={24} color="white" />
+          <TouchableOpacity className="rounded-md p-0.5 bg-gray-500 top-60 right-0 justify-center absolute">
+            <MaterialIcons name="mode-edit" size={20} color="white" />
           </TouchableOpacity>
         )}
       </View>
@@ -53,7 +53,7 @@ const ProductItem = ({ product, activeButton }) => {
         }}
       >
         <View
-          className="border-2 items-center justify-center border-[#bd6379] rounded-lg p-4 bg-white"
+          className="border-2 items-center justify-center border-[#bd6379] rounded-lg p-2 bg-white"
           style={{ marginLeft: -7, marginTop: -7 }}
         >
           <TouchableOpacity onPress={handleImageClick}>

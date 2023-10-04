@@ -79,10 +79,10 @@ const RecentUpdates = ({
       <View
         className="flex-1"
         style={{
-          shadowColor: "#7b091c",
-          shadowOpacity: 0.1,
-          shadowRadius: 5,
-          elevation: 2,
+          shadowColor: "2px 2px 2px 4px #BD6379",
+          shadowOpacity: 0.6,
+          shadowRadius: 10,
+          elevation: 1,
           borderRadius: 10,
           margin: 5,
           marginBottom: 10,

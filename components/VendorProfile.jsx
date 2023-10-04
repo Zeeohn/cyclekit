@@ -9,6 +9,11 @@ import {
   ScrollView,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
+import { axios } from "axios";
 
 const VendorProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -17,12 +22,96 @@ const VendorProfile = () => {
   const [phone, setPhone] = useState("08123456789");
   const [address, setAddress] = useState("123 Main St, Lagos State");
   const [bank, setBank] = useState("Access Bank 01128383846 Habeeb SFT");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const toggleEditing = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleImageUpload = () => {};
+  const getToken = async () => {
+    let token = await AsyncStorage.getItem("authToken");
+    if (!token) {
+      await router.replace("/vlogin");
+    }
+    return token;
+  };
+
+  let config = {
+    method: "get",
+    url: "https://dev.cyclekits.ng/api/vendor/logout?logout_other_devices=true",
+    headers: {
+      Accept: "application/json",
+      Authorization: token,
+    },
+  };
+
+  const handleLogout = async () => {
+    try {
+      const role = await AsyncStorage.getItem("role");
+      axios(config)
+        .then(async (response) => {
+          const data = response.data;
+          console.log(data);
+          await AsyncStorage.removeItem("authToken");
+          if (role == "vendor") {
+            await router.replace("/vlogin");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.errors
+          ) {
+            const validationErrors = error.response.data.errors;
+            const errorMessages = Object.values(validationErrors)
+              .flat() // Flatten the error messages array
+              .join("\n"); // Join error messages with newlines
+
+            Dialog.show({
+              type: ALERT_TYPE.DANGER,
+              title: "Oh-Uh",
+              button: "Ok",
+              textBody: errorMessages,
+            });
+            console.log("Error Status:", error.response.status);
+            console.log("Error Headers:", error.response.headers);
+          } else if (error.request) {
+            console.log("Request Error:", error.request);
+          } else {
+            Dialog.show({
+              type: ALERT_TYPE.DANGER,
+              title: "Oh-Uh",
+              button: "Ok",
+              textBody: `An unexpected error occurred!`,
+            });
+          }
+        });
+    } catch (error) {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Oh-Uh",
+        button: "Ok",
+        textBody: `An unexpected error occurred!`,
+      });
+    }
+  };
+
+  const handleImageUpload = async () => {
+    setIsEditing(!isEditing);
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    }
+  };
 
   return (
     <ScrollView>
@@ -31,10 +120,17 @@ const VendorProfile = () => {
           <View className="flex">
             <View className="rounded-full border-4 p-3 border-black">
               <View className="rounded-full w-36 h-36 justify-center items-center overflow-hidden">
-                <Image
-                  source={require("../assets/images/profile.png")}
-                  className="w-36 h-36"
-                />
+                {selectedImage ? (
+                  <Image
+                    className="w-36 h-36"
+                    source={{ uri: selectedImage }}
+                  />
+                ) : (
+                  <Image
+                    source={require("../assets/images/profile.png")}
+                    className="w-36 h-36"
+                  />
+                )}
               </View>
             </View>
             <View className="left-36 -top-5">
@@ -96,6 +192,17 @@ const VendorProfile = () => {
             <Text style={styles.editButtonText}>Save Changes</Text>
           </TouchableOpacity>
         ) : null}
+
+        <View className="items-center mt-7">
+          <TouchableOpacity
+            className="px-4 py-3 bg-[#7b091c] items-center justify-center rounded-lg"
+            onPress={handleLogout}
+          >
+            <Text className="font-mediumFont text-white text-base">
+              Log out
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );

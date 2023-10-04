@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
 import { Text, View } from "react-native";
+import { AlertNotificationRoot } from "react-native-alert-notification";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -35,11 +36,13 @@ export default function Index() {
   return (
     <Provider store={store}>
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
-        {/* <Stack /> */}
-        <Stack>
-          <Stack.Screen name="(customer)" options={{ headerShown: false }} />
-          <Stack.Screen name="(vendor)" options={{ headerShown: false }} />
-        </Stack>
+        <AlertNotificationRoot>
+          {/* <Stack /> */}
+          <Stack>
+            <Stack.Screen name="(customer)" options={{ headerShown: false }} />
+            <Stack.Screen name="(vendor)" options={{ headerShown: false }} />
+          </Stack>
+        </AlertNotificationRoot>
       </PersistGate>
     </Provider>
   );

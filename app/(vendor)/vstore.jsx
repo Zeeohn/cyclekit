@@ -119,7 +119,7 @@ export default function vstore() {
         <Text className="text-center text-[#7b091c] font-boldFont pt-3">
           Looking for something? (Click on search).
         </Text>
-        <View className="flex flex-row justify-between my-8 mx-8">
+        <View className="flex flex-row justify-between my-4 mx-4">
           <TouchableOpacity
             className="rounded-lg py-2 px-1"
             style={{

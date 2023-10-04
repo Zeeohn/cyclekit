@@ -26,6 +26,10 @@ import Svg, {
   Rect,
 } from "react-native-svg";
 
+export const unstable_settings = {
+  initialRouteName: "index",
+};
+
 export default function AppLayout() {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const navigation = useNavigation();

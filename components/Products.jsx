@@ -43,9 +43,9 @@ const ProductItem = ({ product }) => {
     <View className="flex-1 m-1">
       <View
         style={{
-          shadowColor: "#7b091c",
+          shadowColor: "2px 2px 2px 4px #BD6379",
           shadowOpacity: 0.6,
-          shadowRadius: 8,
+          shadowRadius: 10,
           elevation: 3,
           borderRadius: 10,
           padding: 7,

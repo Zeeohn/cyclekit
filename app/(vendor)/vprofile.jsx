@@ -22,12 +22,6 @@ import Svg, {
 } from "react-native-svg";
 
 export default function Vprofile() {
-  const [nameInput, handleNameInput] = useState("");
-  const [businessInput, handleBusinessInput] = useState("");
-  const [addressInput, handleAddressInput] = useState("");
-  const [bankInput, handleBankInput] = useState("");
-  const [phoneInput, handlePhoneInput] = useState("");
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Stack.Screen

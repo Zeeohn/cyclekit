@@ -6,6 +6,7 @@ import {
   TextInput,
   Pressable,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import React, { useState, useRef } from "react";
 import { Stack } from "expo-router";
@@ -20,6 +21,12 @@ import Svg, {
   Mask,
   Rect,
 } from "react-native-svg";
+// import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
+import {
+  actions,
+  RichEditor,
+  RichToolbar,
+} from "react-native-pell-rich-editor";
 
 export default function Vendor() {
   const richText = useRef();
@@ -35,13 +42,23 @@ export default function Vendor() {
 
   const [selectedValue, setSelectedValue] = useState("Select");
 
-  const dropdownOptions = [
-    { label: "Lagos", value: "Lagos" },
-    { label: "Abuja", value: "Abuja" },
-    { label: "Ibadan", value: "Ibadan" },
-    { label: "Akwa Ibom", value: "Akwa Ibom" },
-    { label: "Benue", value: "Benue" },
-  ];
+  const getDropdownOptions = () => {
+    if (priceInput <= 3000) {
+      return [
+        { label: "City", value: "City" },
+        { label: "National", value: "National" },
+      ];
+    } else if (priceInput > 3000 && priceInput <= 15000) {
+      return [
+        { label: "State", value: "State" },
+        { label: "National", value: "National" },
+      ];
+    } else {
+      return [{ label: "National", value: "National" }];
+    }
+  };
+
+  const dropdownOptions = getDropdownOptions();
 
   const richTextHandle = (descriptionText) => {
     if (descriptionText) {
@@ -85,7 +102,7 @@ export default function Vendor() {
       <ScrollView>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View className="flex flex-1 items-center mx-4 pb-20">
-            <View className="rounded border border-gray-300 w-full mb-3">
+            <View className="rounded border border-gray-300 w-[90vw] mb-3">
               <Text className="text-lg font-boldFont border-b border-b-gray-300 py-1 bg-gray-100 text-center">
                 Upload picture of item
               </Text>
@@ -112,31 +129,31 @@ export default function Vendor() {
                 </TouchableOpacity>
               </View>
             </View>
-            {/* <Pressable onPress={() => richText.current?.dismissKeyboard()}> */}
-            <View className="rounded border border-gray-300 w-full mb-2">
-              <Text className="text-lg font-boldFont border-b border-b-gray-300 py-1 bg-gray-100 text-center">
-                Item Name and Description
-              </Text>
-              <View className="px-4">
-                <View className="py-4">
-                  <Text className="font-normalFont text-sm pb-0.5">
-                    Item name
-                  </Text>
-                  <TextInput
-                    value={itemInput}
-                    onChangeText={handleItemInput}
-                    className="flex-grow border rounded-md py-1.5 px-4 font-normalFont text-sm"
-                    style={{
-                      borderColor: "black",
-                      color: "black",
-                    }}
-                  />
-                </View>
-                <View className="mb-4">
-                  <Text className="font-normalFont text-sm pb-0.5">
-                    Item description
-                  </Text>
-                  <TextInput
+            <Pressable onPress={() => richText.current?.dismissKeyboard()}>
+              <View className="rounded border border-gray-300 w-[90vw] mx-8 mb-2">
+                <Text className="text-lg font-boldFont border-b border-b-gray-300 py-1 bg-gray-100 text-center">
+                  Item Name and Description
+                </Text>
+                <View className="px-4">
+                  <View className="py-4">
+                    <Text className="font-normalFont text-sm pb-0.5">
+                      Item name
+                    </Text>
+                    <TextInput
+                      value={itemInput}
+                      onChangeText={handleItemInput}
+                      className="flex-grow border rounded-md py-1.5 px-4 font-normalFont text-sm"
+                      style={{
+                        borderColor: "black",
+                        color: "black",
+                      }}
+                    />
+                  </View>
+                  <View className="mb-4">
+                    <Text className="font-normalFont text-sm pb-0.5">
+                      Item description
+                    </Text>
+                    {/* <TextInput
                     value={descriptionInput}
                     onChangeText={handleDescriptionInput}
                     className="flex-grow border rounded-md py-1.5 px-4 font-normalFont text-sm"
@@ -144,42 +161,61 @@ export default function Vendor() {
                       borderColor: "black",
                       color: "black",
                     }}
-                  />
-                  {/* <View>
-                    <RichEditor
-                      ref={richText}
-                      onChange={richTextHandle}
-                      placeholder="Write your cool content here :)"
-                      androidHardwareAccelerationDisabled={true}
-                      style={styles.richTextEditorStyle}
-                      initialHeight={250}
-                    />
-                    <RichToolbar
-                      editor={richText}
-                      selectedIconTint="#873c1e"
-                      iconTint="#312921"
-                      actions={[
-                        actions.insertImage,
-                        actions.setBold,
-                        actions.setItalic,
-                        actions.insertBulletsList,
-                        actions.insertOrderedList,
-                        actions.insertLink,
-                        actions.setStrikethrough,
-                        actions.setUnderline,
-                      ]}
-                      style={styles.richTextToolbarStyle}
-                    />
+                  /> */}
+                    <View>
+                      <RichEditor
+                        ref={richText}
+                        onChange={richTextHandle}
+                        placeholder="Enter Item Description Here"
+                        androidHardwareAccelerationDisabled={true}
+                        style={{
+                          borderWidth: 1,
+                          padding: 1,
+                          borderColor: "black",
+                          borderRadius: 10,
+                        }}
+                        initialHeight={250}
+                      />
+                      <RichToolbar
+                        editor={richText}
+                        getEditor={() => richText.current}
+                        selectedIconTint="#7b091c"
+                        iconTint="white"
+                        actions={[
+                          actions.insertImage,
+                          actions.setBold,
+                          actions.setItalic,
+                          actions.insertBulletsList,
+                          actions.insertOrderedList,
+                          actions.insertLink,
+                          actions.setStrikethrough,
+                          actions.setUnderline,
+                        ]}
+                        style={{
+                          backgroundColor: "black",
+                          borderColor: "black",
+                          borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                          borderWidth: 1,
+                          bottom: 10,
+                        }}
+                      />
+                    </View>
+                    {showDescError && (
+                      <Text
+                        style={{
+                          color: "#FF0000",
+                          marginBottom: 10,
+                          textAlign: "center",
+                        }}
+                      >
+                        Your content shouldn't be empty 🤔
+                      </Text>
+                    )}
                   </View>
-                  {showDescError && (
-                    <Text style={styles.errorTextStyle}>
-                      Your content shouldn't be empty 🤔
-                    </Text>
-                  )} */}
                 </View>
               </View>
-            </View>
-            {/* </Pressable> */}
+            </Pressable>
             <View className="w-full">
               <View className="pb-4 pt-2">
                 <Text className="font-normalFont text-sm pb-0.5">Price</Text>
