@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
-import { AsyncStorage } from "@react-native-async-storage/async-storage";
-import { Stack, Link, router } from "expo-router";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Stack, Link, router, Redirect } from "expo-router";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 
 const withAuthCheck = (WrappedComponent) => {
   return (props) => {
-    const navigation = useNavigation();
+    const [authToken, setAuthToken] = useState("");
+    const [userRole, setUserRole] = useState("");
 
     useEffect(() => {
       checkAuth();
@@ -16,15 +17,38 @@ const withAuthCheck = (WrappedComponent) => {
       const role = await AsyncStorage.getItem("role");
 
       if (!token && role == "vendor") {
-        router.replace("/vlogin");
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Oh-Uh",
+          button: "Ok",
+          textBody: "Vendor session has expired! Login again!",
+        });
+        return router.replace("/vlogin");
       } else if (!token && role == "customer") {
-        router.replace("/clogin");
-      } else {
-        router.replace("/index");
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Oh-Uh",
+          button: "Ok",
+          textBody: "Customer session has expired! Login again!",
+        });
+        return router.replace("/clogin");
+      } else if (!role && !token) {
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Oh-Uh",
+          button: "Ok",
+          textBody: "Your session has expired! Login again!",
+        });
+        return router.replace("/app/");
       }
+
+      setAuthToken(token);
+      setUserRole(role);
     };
 
-    return <WrappedComponent {...props} />;
+    return (
+      <WrappedComponent {...props} authToken={authToken} userRole={userRole} />
+    );
   };
 };
 

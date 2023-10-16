@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Svg, { Path, Defs, Pattern, Rect } from "react-native-svg";
+import { Link } from "expo-router";
+import { WebView } from "react-native-webview";
 
-const ProductItem = ({ product, activeButton }) => {
+const ProductItem = ({ products, activeButton }) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const handleImageClick = () => {
@@ -25,6 +27,9 @@ const ProductItem = ({ product, activeButton }) => {
   const handleAddToCart = () => {
     // todo: Add to cart functionality
   };
+
+  console.log(products);
+  // console.log(products.length);
 
   return (
     <View className="flex-1 mt-2 relative">
@@ -57,28 +62,31 @@ const ProductItem = ({ product, activeButton }) => {
           style={{ marginLeft: -7, marginTop: -7 }}
         >
           <TouchableOpacity onPress={handleImageClick}>
-            <Image source={{ uri: product.imageUrl }} className="w-32 h-32" />
+            <Image
+              source={{ uri: products?.images[0] }}
+              className="w-32 h-32"
+            />
           </TouchableOpacity>
           <View className="justify-center items-center mt-2">
             <Text className="font-boldFont text-lg text-[#7b091c]">
-              &#8358;{product.price}
+              &#8358;{products.categories[0].price}
             </Text>
             <Text className="font-mediumFont text-sm text-[#7b091c] pt-2">
-              {product.name}
+              {products.title}
             </Text>
             <Text className="font-mediumFont text-sm text-[#7b091c] pt-2">
-              ({product.stock}) stock
+              ({products.categories[0].stock}) stock
             </Text>
             {/* <View className="mt-2">
-              <TouchableOpacity
-                className="bg-[#7b091c] px-2 py-2 rounded-lg mb-2"
-                onPress={handleAddToCart}
-              >
-                <Text className="font-normalFont text-[12px] text-white">
-                  Add to Cart
-                </Text>
-              </TouchableOpacity>
-            </View> */}
+            <TouchableOpacity
+              className="bg-[#7b091c] px-2 py-2 rounded-lg mb-2"
+              onPress={handleAddToCart}
+            >
+              <Text className="font-normalFont text-[12px] text-white">
+                Add to Cart
+              </Text>
+            </TouchableOpacity>
+          </View> */}
           </View>
         </View>
 
@@ -107,7 +115,7 @@ const ProductItem = ({ product, activeButton }) => {
               </View>
               <View className="items-center">
                 <Image
-                  source={{ uri: product.imageUrl }}
+                  source={{ uri: products.images[0] }}
                   className="w-72 h-72 rounded-xl"
                 />
               </View>
@@ -118,22 +126,29 @@ const ProductItem = ({ product, activeButton }) => {
                     color: "black",
                   }}
                 >
-                  {product.name}
+                  {products.title}
                 </Text>
                 <Text className="font-boldFont text-xl text-[#bd6379]">
-                  &#8358;{product.price}
+                  &#8358;{products.categories[0].price}
                 </Text>
-                <Text
-                  className="font-normalFont text-xs text-justify pt-2"
-                  style={{
-                    color: "black",
-                  }}
-                >
-                  {product.description}
-                </Text>
+                <View className="flex-1 h-1/2">
+                  <WebView
+                    originWhitelist={["*"]}
+                    source={{ html: products.item_desc }}
+                    style={{ flex: 0, height: 20 }}
+                  />
+                </View>
+                {/* <Text
+                    className="font-normalFont text-xs text-justify pt-2"
+                    style={{
+                      color: "black",
+                    }}
+                  >
+                    {products.item_desc}
+                  </Text> */}
                 <View className="flex flex-row justify-between pt-8">
                   <TouchableOpacity
-                    onPress={handleAddToCart}
+                    onPress={handleAddToCart(products.item_id)}
                     className="bg-black px-3 py-2 rounded-md"
                     style={{
                       backgroundColor: "#7b091c",
@@ -169,18 +184,33 @@ const VendorProducts = ({ products, activeButton }) => {
     setIsVisible(!isVisible);
   };
 
+  console.log(products);
+  console.log(products.length);
+
   return (
-    <FlatList
-      data={products}
-      renderItem={({ item }) => (
-        <ProductItem product={item} activeButton={activeButton} />
+    <>
+      {products.length > 0 ? (
+        <FlatList
+          data={products}
+          renderItem={({ item }) => (
+            <ProductItem products={item} activeButton={activeButton} />
+          )}
+          keyExtractor={(item) => item.item_id.toString()}
+          numColumns={2}
+          contentContainerStyle={{
+            paddingBottom: 100,
+          }}
+        />
+      ) : (
+        <View className="flex flex-1 justify-center items-center mt-16">
+          <Text className="font-normalFont text-[#7b091c] text-lg">
+            There are no store items right now,{" "}
+            <Link href="/index">create a product</Link> or check your pending
+            items.
+          </Text>
+        </View>
       )}
-      keyExtractor={(item) => item.id.toString()}
-      numColumns={2}
-      contentContainerStyle={{
-        paddingBottom: 100,
-      }}
-    />
+    </>
   );
 };
 

@@ -53,11 +53,8 @@ export default function VendorLogin() {
       .post("https://dev.cyclekits.ng/api/vendor/login", loginDetails)
       .then(async (response) => {
         const data = response.data;
-        console.log(data);
 
         if (data.status) {
-          console.log("Vendor Created Successfully");
-          console.log("Token:", data.token);
           Toast.show({
             type: ALERT_TYPE.SUCCESS,
             title: "Success",
@@ -76,7 +73,6 @@ export default function VendorLogin() {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
         if (
           error.response &&
           error.response.data &&
@@ -97,6 +93,17 @@ export default function VendorLogin() {
           console.log("Error Headers:", error.response.headers);
         } else if (error.request) {
           console.log("Request Error:", error.request);
+
+          const errorMessage = error.request._response
+            ? JSON.parse(error.request._response).message
+            : null;
+
+          Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: "Oh-Uh",
+            button: "Ok",
+            textBody: `${errorMessage}`,
+          });
         } else {
           Dialog.show({
             type: ALERT_TYPE.DANGER,
@@ -203,6 +210,17 @@ export default function VendorLogin() {
                   <Text className="underline font-normalFont text-base text-[#7b091c]">
                     {" "}
                     Sign up
+                  </Text>
+                </Link>
+              </View>
+              <View className="flex flex-row justify-center">
+                <Text className="font-normalFont text-base text-[#7b091c]">
+                  Forgotten your password?
+                </Text>
+                <Link href="/vreset">
+                  <Text className="underline font-normalFont text-base text-[#7b091c]">
+                    {" "}
+                    Reset Password
                   </Text>
                 </Link>
               </View>

@@ -23,7 +23,7 @@ import Svg, {
 
 export default function Vprofile() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ backgroundColor: "white" }}>
       <Stack.Screen
         options={{
           headerShadowVisible: false,

@@ -71,7 +71,6 @@ export default function Index() {
             className="w-36 h-36"
             source={require("../assets/images/logo.png")}
             style={{ tintColor: "white" }}
-            resizeMode="contain"
           />
         </View>
       </SafeAreaView>
@@ -102,10 +101,7 @@ export default function Index() {
               Welcome
             </Text>
             <View className="mt-4 mb-5">
-              <TouchableOpacity
-                onPress={userRoute}
-                className="rounded-2xl px-4 py-2 bg-white flex flex-row items-center"
-              >
+              <TouchableOpacity className="rounded-2xl px-4 py-2 bg-white flex flex-row items-center">
                 <Text className="text-[#7b091c] font-mediumFont text-lg">
                   Continue as a Customer
                 </Text>
@@ -135,10 +131,7 @@ export default function Index() {
               <Text className="font-boldFont text-base text-white text-center mb-10">
                 or
               </Text>
-              <TouchableOpacity
-                onPress={shopRoute}
-                className="rounded-2xl px-7 py-2 bg-transparent flex flex-row items-center border-2 border-white"
-              >
+              <TouchableOpacity className="rounded-2xl px-7 py-2 bg-transparent flex flex-row items-center border-2 border-white">
                 <Text className="text-white font-mediumFont text-lg">
                   Shop as guest
                 </Text>

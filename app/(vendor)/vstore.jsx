@@ -7,9 +7,10 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Stack } from "expo-router";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Svg, {
   G,
@@ -20,80 +21,89 @@ import Svg, {
   Mask,
   Rect,
 } from "react-native-svg";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import SearchBar from "./../../components/SearchBar";
 import VendorProducts from "./../../components/VendorProducts";
+import withAuthCheck from "./../../components/Auth";
 
-export default function vstore() {
+function vstore(props) {
   const [activeButton, setActiveButton] = useState("myStoreItems");
   const [header, setHeader] = useState("My Store Items");
+  const [apiData, setApiData] = useState([]);
 
   const handleButtonPress = (buttonName, headerTitle) => {
     setActiveButton(buttonName);
     setHeader(headerTitle);
   };
 
-  const products = [
-    {
-      id: 1,
-      imageUrl:
-        "https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
-      price: "6,000",
-      name: "Product 1",
-      description:
-        "Incididunt duis nulla enim voluptate ad mollit voluptate labore nulla incididunt aute. Consequat Lorem non ipsum sint et est qui cupidatat et do anim cupidatat. Do labore occaecat ipsum aute eiusmod esse anim dolore ipsum. Nulla eiusmod ea incididunt labore ex amet dolore irure. Cupidatat proident nisi sit ut est ut labore duis aliquip. Sint Lorem eiusmod eu sint esse duis.",
-      stock: 14,
-    },
-    {
-      id: 2,
-      imageUrl:
-        "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-      price: "10,000",
-      name: "Product 2",
-      description:
-        "Irure mollit enim eiusmod consectetur et deserunt sunt nostrud. Aliquip minim labore velit aliquip culpa voluptate id non eiusmod. Veniam aliqua aliqua proident exercitation labore nisi laborum esse. Et irure quis id tempor proident ea ad velit. Reprehenderit exercitation qui ad eiusmod labore id nulla laboris ea ad id laboris tempor.",
-      stock: 10,
-    },
-    {
-      id: 3,
-      imageUrl:
-        "https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
-      price: "6,000",
-      name: "Product 3",
-      description:
-        "Incididunt duis nulla enim voluptate ad mollit voluptate labore nulla incididunt aute. Consequat Lorem non ipsum sint et est qui cupidatat et do anim cupidatat. Do labore occaecat ipsum aute eiusmod esse anim dolore ipsum. Nulla eiusmod ea incididunt labore ex amet dolore irure. Cupidatat proident nisi sit ut est ut labore duis aliquip. Sint Lorem eiusmod eu sint esse duis.",
-      stock: 4,
-    },
-    {
-      id: 4,
-      imageUrl:
-        "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-      price: "10,000",
-      name: "Product 4",
-      description:
-        "Irure mollit enim eiusmod consectetur et deserunt sunt nostrud. Aliquip minim labore velit aliquip culpa voluptate id non eiusmod. Veniam aliqua aliqua proident exercitation labore nisi laborum esse. Et irure quis id tempor proident ea ad velit. Reprehenderit exercitation qui ad eiusmod labore id nulla laboris ea ad id laboris tempor.",
-      stock: 8,
-    },
-    {
-      id: 5,
-      imageUrl:
-        "https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
-      price: "6,000",
-      name: "Product 5",
-      description:
-        "Incididunt duis nulla enim voluptate ad mollit voluptate labore nulla incididunt aute. Consequat Lorem non ipsum sint et est qui cupidatat et do anim cupidatat. Do labore occaecat ipsum aute eiusmod esse anim dolore ipsum. Nulla eiusmod ea incididunt labore ex amet dolore irure. Cupidatat proident nisi sit ut est ut labore duis aliquip. Sint Lorem eiusmod eu sint esse duis.",
-      stock: 20,
-    },
-    {
-      id: 6,
-      imageUrl:
-        "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-      price: "10,000",
-      name: "Product 6",
-      description:
-        "Irure mollit enim eiusmod consectetur et deserunt sunt nostrud. Aliquip minim labore velit aliquip culpa voluptate id non eiusmod. Veniam aliqua aliqua proident exercitation labore nisi laborum esse. Et irure quis id tempor proident ea ad velit. Reprehenderit exercitation qui ad eiusmod labore id nulla laboris ea ad id laboris tempor.",
-      stock: 14,
-    },
-  ];
+  useEffect(() => {
+    if (props.authToken) {
+      const fetchStoreItems = async () => {
+        try {
+          let config = {
+            method: "get",
+            url: `https://dev.cyclekits.ng/api/vendor/item?page=1&max_per_page=20&includes=item_desc,attributes&status=${
+              activeButton === "myStoreItems" ? "1" : "0"
+            }`,
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${props.authToken}`,
+            },
+          };
+
+          axios(config)
+            .then(async (response) => {
+              const data = response.data;
+              if (data.status) {
+                setApiData(data);
+              }
+            })
+            .catch((error) => {
+              console.log("Error:", error);
+              if (
+                error.response &&
+                error.response.data &&
+                error.response.data.errors
+              ) {
+                console.log(error.response.data);
+                const validationErrors = error.response.data.errors;
+                const errorMessages = Object.values(validationErrors)
+                  .flat() // Flatten the error messages array
+                  .join("\n"); // Join error messages with newlines
+
+                Dialog.show({
+                  type: ALERT_TYPE.DANGER,
+                  title: "Oh-Uh",
+                  button: "Ok",
+                  textBody: errorMessages,
+                });
+                console.log("Error Status:", error.response.status);
+                console.log("Error Headers:", error.response.headers);
+              } else if (error.request) {
+                console.log("Request Error:", error.request);
+              } else {
+                Dialog.show({
+                  type: ALERT_TYPE.DANGER,
+                  title: "Oh-Uh",
+                  button: "Ok",
+                  textBody: `An unexpected error occurred!`,
+                });
+              }
+            });
+        } catch (error) {
+          console.log(error);
+          Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: "Oh-Uh",
+            button: "Ok",
+            textBody: `An unexpected error occurred!`,
+          });
+        }
+      };
+
+      fetchStoreItems();
+    }
+  }, [props.authToken, activeButton]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -147,9 +157,16 @@ export default function vstore() {
         </View>
 
         <View className="mx-4 pb-32">
-          <VendorProducts products={products} activeButton={activeButton} />
+          {apiData.data && (
+            <VendorProducts
+              products={apiData.data}
+              activeButton={activeButton}
+            />
+          )}
         </View>
       </View>
     </SafeAreaView>
   );
 }
+
+export default withAuthCheck(vstore);
