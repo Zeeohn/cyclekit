@@ -15,7 +15,7 @@ import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-export default function VendorLogin() {
+export default function CustomerReset() {
   const [phoneInput, setPhoneInput] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -61,7 +61,7 @@ export default function VendorLogin() {
 
     axios
       .post(
-        "https://dev.cyclekits.ng/api/vendor/reset-password-code",
+        "https://dev.cyclekits.ng/api/auth/reset-password-code",
         phoneDetails
       )
       .then(async (response) => {
@@ -143,7 +143,7 @@ export default function VendorLogin() {
     };
 
     axios
-      .post("https://dev.cyclekits.ng/api/vendor/reset-password", resetDetails)
+      .post("https://dev.cyclekits.ng/api/auth/reset-password", resetDetails)
       .then(async (response) => {
         const data = response.data;
 
@@ -153,13 +153,14 @@ export default function VendorLogin() {
             title: "Success",
             textBody: `${data.message}`,
           });
-          await router.replace("/vlogin");
+
+          await router.replace("/clogin");
         } else {
           Dialog.show({
             type: ALERT_TYPE.DANGER,
             title: "Oh-Uh",
             button: "Ok",
-            textBody: `Error resetting password: ${data.message}`,
+            textBody: `Password Reset Error: ${data.message}`,
           });
         }
       })

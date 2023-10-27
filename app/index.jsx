@@ -21,7 +21,7 @@ export default function Index() {
     router.push("/vlogin");
   };
   const userRoute = () => {
-    router.push("/(customer)");
+    router.push("/clogin");
   };
   const shopRoute = () => {
     router.push("/(customer)/store");
@@ -86,7 +86,7 @@ export default function Index() {
             headerShadowVisible: false,
           }}
         />
-        <View className="bg-[#7b091c] flex flex-1 items-center">
+        <View className="bg-[#7b091c] flex flex-1 pt-12 items-center">
           <Text className="font-boldFont text-5xl text-white">Cyclekits</Text>
           <Text className="font-normalFont text-lg text-white mb-8">
             For Women and Children
@@ -101,7 +101,10 @@ export default function Index() {
               Welcome
             </Text>
             <View className="mt-4 mb-5">
-              <TouchableOpacity className="rounded-2xl px-4 py-2 bg-white flex flex-row items-center">
+              <TouchableOpacity
+                onPress={userRoute}
+                className="rounded-2xl px-4 py-2 bg-white flex flex-row items-center"
+              >
                 <Text className="text-[#7b091c] font-mediumFont text-lg">
                   Continue as a Customer
                 </Text>
@@ -131,7 +134,10 @@ export default function Index() {
               <Text className="font-boldFont text-base text-white text-center mb-10">
                 or
               </Text>
-              <TouchableOpacity className="rounded-2xl px-7 py-2 bg-transparent flex flex-row items-center border-2 border-white">
+              <TouchableOpacity
+                onPress={shopRoute}
+                className="rounded-2xl px-7 py-2 bg-transparent flex flex-row items-center border-2 border-white"
+              >
                 <Text className="text-white font-mediumFont text-lg">
                   Shop as guest
                 </Text>

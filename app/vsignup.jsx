@@ -348,7 +348,7 @@ export default function VendorSignup() {
             <Text className="font-mediumFont pb-1 text-base text-white">
               State
             </Text>
-            <View className="border flex-1 rounded-lg h-full bg-white font-normalFont text-base text-black">
+            <View className="border flex-1 rounded-lg">
               <Picker
                 selectedValue={stateInput}
                 onValueChange={handleStateInput}
